@@ -4,7 +4,6 @@ const path = require('path');
 // Ensure you have downloaded your serviceAccountKey.json from Firebase Console
 // and placed it in the server/ directory (do NOT commit this file to Git).
 const serviceAccountPath = path.join(__dirname, 'serviceAccountKey.json');
-const admin = require('firebase-admin');
 
 const serviceAccount = {
   type: "service_account",
