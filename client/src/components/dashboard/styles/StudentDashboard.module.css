@@ -1,0 +1,515 @@
+/* src/components/dashboard/styles/StudentDashboard.module.css */
+
+.dashboardContainer {
+  padding: 2rem;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100vh;
+  background-color: #2c3e50;
+  color: white;
+  transition: left 0.3s ease-in-out;
+  z-index: 1000;
+  padding: 1rem;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.closeSidebar {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+.sidebarTitle {
+  border-bottom: 1px solid white;
+  padding-bottom: 10px;
+  margin-top: 2rem;
+}
+
+.sidebarList {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+.sidebarList li {
+  padding: 10px 0;
+  cursor: pointer;
+}
+
+/* Overlay when sidebar is open */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+/* Sidebar toggle button */
+.sidebarButton {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1001;
+}
+
+.topRightIcons {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1001;
+}
+
+/* Clickable icons (trophy, logout) */
+.iconClickable {
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+/* Disable clicking trophy */
+.disabledIcon {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* Main Dashboard Content */
+.mainContent {
+  padding-top: 3rem;
+}
+
+/* Profile‐specific styles inside the same “popupBox” */
+.profileContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Avatar area */
+.avatarSection {
+  position: relative;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.profileAvatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid #007bff;
+}
+.profileAvatarPlaceholder {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  cursor: pointer;
+  border: 2px dashed #007bff;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   When you pick a brand-new file (avatarPreview), show a small box too:
+   ────────────────────────────────────────────────────────────────────────── */
+.avatarPreview {
+  margin-top: 10px;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #888;
+}
+
+/* Ensure the “avatarOptions” menu does not push the preview outside its box: */
+.avatarSection {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Avatar options menu */
+.avatarOptions {
+  position: absolute;
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  z-index: 1010;
+  display: flex;
+  flex-direction: column;
+  min-width: 160px;
+}
+.avatarOptions button,
+.uploadLabel {
+  background: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+.avatarOptions button:hover,
+.uploadLabel:hover {
+  background-color: #f0f0f0;
+}
+/* hide the real file input, only show “Upload New” label */
+.fileInput {
+  display: none;
+}
+
+.profileInfoForm {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0.5rem;
+}
+
+.profileInfoForm label {
+  font-size: 0.9rem;
+}
+
+.profileInput,
+.profileInputReadOnly {
+  width: 100%;
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.profileInputReadOnly {
+  background-color: #f0f0f0;
+  color: #555;
+}
+
+.profileSuccess {
+  color: green;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.profileError {
+  color: red;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.profileButtonGroup {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.profileSaveButton,
+.profileCancelButton {
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.profileSaveButton {
+  background-color: #2c3e50;
+  color: #fff;
+}
+
+.profileCancelButton {
+  background-color: #ccc;
+  color: #333;
+}
+
+
+/* Achievements Section */
+.achievementBox {
+  margin-top: 2rem;
+  border: 1px solid #ccc;
+  padding: 1.5rem;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  position: relative;
+}
+
+.closeButton {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.achievementTable {
+  width: 100%;
+  margin-top: 1rem;
+  border-collapse: collapse;
+}
+
+.achievementTable th,
+.achievementTable td {
+  border-bottom: 1px solid #ccc;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.noRecord {
+  padding: 1rem;
+}
+
+
+.tingkatanOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.tingkatanCell {
+  background-color: #6495ED;
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.tingkatanCell:hover {
+  background-color: #0000FF;
+}
+
+
+
+
+.popupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Dark transparent */
+  z-index: 999;
+}
+
+.popupBox {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  z-index: 1000;
+  width: 80%;
+  max-width: 500px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+}
+
+.closeButton {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+
+/* forum topic css */
+
+/* Card for each forum topic */
+.forumTopicCard {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: #f9f9f9;
+}
+
+.commentCard {
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 0.75rem;
+  margin-top: 1rem;
+  background: #fff;
+}
+
+.commentHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.commentAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.commentImage {
+  max-width: 100%;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.commentReplies {
+  margin-left: 2rem;
+  margin-top: 1rem;
+}
+
+.commentForm, .replyForm {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* ───────────────────────── REPLY & NESTED STYLES ───────────────────────── */
+.replyControls {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.replyButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 0.9rem;
+}
+
+.replyForm {
+  margin-top: 0.5rem;
+  padding-left: 1rem;
+}
+
+.replyList {
+  list-style: none;
+  margin-top: 0.5rem;
+  padding-left: 1rem;
+}
+
+.replyItem {
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+/* give three alternating background shades for nesting clarity */
+.nestedLevel1 {
+  background-color: rgba(230, 240, 255, 0.6);
+}
+.nestedLevel2 {
+  background-color: rgba(240, 230, 255, 0.6);
+}
+.nestedLevel3 {
+  background-color: rgba(230, 255, 240, 0.6);
+}
+
+.smallForm input,
+.smallForm textarea,
+.profileInput {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.smallButton {
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  padding: 0.3rem 0.6rem;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.deleteButton {
+  background-color: #d32f2f;
+  color: white;
+  border: none;
+  padding: 0.3rem 0.6rem;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+/* .backButton {
+  background: none;
+  border: none;
+  color: #1976d2;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+} */
+
+.uploadLabel {
+  display: inline-block;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  color: #1976d2;
+}
+
+.fileInput {
+  display: none;
+}
+
+.profileError {
+  color: #d32f2f;
+  margin-bottom: 0.5rem;
+}
+
+.tingkatanCell {
+  background: #0d47a1;
+  color: white;
+  padding: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+
+/* “Back” button reused from StudentDashboard */
+.backButton {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+}
+.backButton:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,24 @@
+# Node modules for both root and subdirectories
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Environment files
+.env
+
+# Build output directories (if applicable)
+client/build/
+server/build/
+
+# Ignore Firebase service account
+/server/serviceAccountKey.json
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Misc
+.DS_Store
+
+cotc-3aa38-firebase-adminsdk-fbsvc-5ac1c92e9e.json
