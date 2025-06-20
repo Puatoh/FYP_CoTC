@@ -225,6 +225,7 @@
 .profileSaveButton,
 .profileCancelButton {
   padding: 8px 16px;
+  margin: 5px;
   font-size: 0.9rem;
   border: none;
   border-radius: 4px;
@@ -341,6 +342,64 @@
 }
 
 
+
+.studentTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.studentTable th,
+.studentTable td {
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.studentTable th {
+  background-color: #f0f0f0;
+}
+
+.activityList {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+.activityItem {
+  background-color: #f9f9f9;
+  margin-bottom: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 8px;
+  box-shadow: 0 0 4px rgba(0,0,0,0.1);
+}
+
+.timestamp {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 0.25rem;
+}
+
+.clickableContent {
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.topicLink {
+  margin-top: 0.25rem;
+  font-size: 0.85rem;
+}
+
+.topicLink a {
+  color: #444;
+  text-decoration: none;
+}
+
+.topicLink a:hover {
+  text-decoration: underline;
+}
+
 /* forum topic css */
 
 /* Card for each forum topic */
@@ -432,6 +491,183 @@
 .nestedLevel3 {
   background-color: rgba(230, 255, 240, 0.6);
 }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Challenge Editor Form Styling (/cabaran-soalan/admin)
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.challengeForm {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.challengeForm h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #1a237e;
+}
+
+.challengeForm input[type="text"],
+.challengeForm textarea,
+.challengeForm select,
+.challengeForm input[type="number"] {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s;
+}
+
+.challengeForm input:focus,
+.challengeForm textarea:focus,
+.challengeForm select:focus {
+  border-color: #2196f3;
+  outline: none;
+  background-color: #fff;
+}
+
+.questionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #eeeeee;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.questionBody {
+  padding: 1rem;
+  background-color: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.choiceRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.choiceRow input[type="text"] {
+  flex: 1;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+
+.challengeTopControls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.challengeSearchInput {
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 60%;
+}
+
+.createChallengeButton {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+}
+
+.challengeTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.challengeTable th {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 2px solid #ccc;
+  background-color: #f2f2f2;
+}
+
+.challengeTable td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #ccc;
+}
+
+.actionBtn {
+  margin-right: 8px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: none;
+  background-color: #eee;
+  cursor: pointer;
+}
+
+.deleteBtn {
+  color: red;
+}
+
+.leaderboardContainer {
+  background-color: #f9fbff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+}
+
+.achievementTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.achievementTable th,
+.achievementTable td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.achievementTable thead {
+  background-color: #e1efff;
+}
+
+.achievementTable tr:hover {
+  background-color: #f1f7ff;
+}
+
+.achievementTable td:nth-child(1) {
+  font-weight: bold;
+}
+
+@media screen and (max-width: 768px) {
+  .achievementTable th,
+  .achievementTable td {
+    font-size: 0.85rem;
+    padding: 0.6rem;
+  }
+}
+
+
 
 .smallForm input,
 .smallForm textarea,

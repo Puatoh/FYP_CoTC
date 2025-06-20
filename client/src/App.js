@@ -26,6 +26,11 @@ import LatihanTingkatan1 from './components/dashboard/LatihanTingkatan1';
 import AdminLatihanTingkatan1 from './components/dashboard/AdminLatihanTingkatan1';
 import LatihanModuleTingkatan1 from './components/dashboard/LatihanModuleTingkatan1';
 import AdminLatihanModuleTingkatan1 from './components/dashboard/AdminLatihanModuleTingkatan1';
+import Cabaran from './components/dashboard/Cabaran';
+import AdminCabaran from './components/dashboard/AdminCabaran';
+import CabaranSoalan from './components/dashboard/CabaranSoalan';
+import AdminCabaranSoalan from './components/dashboard/AdminCabaranSoalan';
+import ChallengeLeaderboard from './components/dashboard/ChallengeLeaderboard';
 import './firebase-config';
 
 import { auth } from './firebase-config';
@@ -65,6 +70,11 @@ function App() {
         <Route path="/module-latihan-tingkatan-1/admin"element={<ProtectedRoute requiredRole="admin"><AdminLatihanModuleTingkatan1 /></ProtectedRoute>}/>
         <Route path="/module-latihan-tingkatan-1/:moduleId" element={ <ProtectedRoute> <LatihanTingkatan1/> </ProtectedRoute> } />
         <Route path="/module-latihan-tingkatan-1/:moduleId/admin" element={ <ProtectedRoute requiredRole="admin"> <AdminLatihanTingkatan1 /></ProtectedRoute> } />
+        <Route path="/cabaran" element={ <ProtectedRoute> <Cabaran /> </ProtectedRoute> } />
+        <Route path="/cabaran/admin" element={ <ProtectedRoute requiredRole="admin"> <AdminCabaran /> </ProtectedRoute> } />
+        <Route path="/cabaran-soalan/:id" element={ <ProtectedRoute > <CabaranSoalan /> </ProtectedRoute> } />
+        <Route path="/cabaran-soalan/admin" element={ <ProtectedRoute requiredRole="admin"> <AdminCabaranSoalan /> </ProtectedRoute> } />
+        <Route path="/cabaran-leaderboard/:id" element={<ChallengeLeaderboard/>} />
       </Routes>
     </BrowserRouter>
   );

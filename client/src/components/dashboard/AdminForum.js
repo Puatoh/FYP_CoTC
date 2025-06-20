@@ -36,6 +36,8 @@ const AdminForum = () => {
       navigate('/forum/admin');
     } else if (menuItem === 'Latihan') {
       navigate('/latihan/admin');
+    }else if (menuItem === 'Cabaran') {
+      navigate('/cabaran/admin');
     }
     setIsSidebarOpen(false);
   };
@@ -53,7 +55,7 @@ const AdminForum = () => {
               <li onClick={() => handleMenuClick('Tingkatan')}>Tingkatan</li>
               <li onClick={() => handleMenuClick('Forum')}>Forum</li>
               <li onClick={() => handleMenuClick('Latihan')}>Latihan</li>
-              <li>Quiz</li>
+              <li onClick={() => handleMenuClick('Cabaran')}>Cabaran</li>
             </ul>
           </div>
           <div className={styles.overlay} onClick={toggleSidebar} />

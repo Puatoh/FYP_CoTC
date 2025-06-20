@@ -1,5 +1,5 @@
 // src/components/dashboard/AdminDashboard.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../../firebase-config';
@@ -17,6 +17,12 @@ const AdminDashboard = () => {
   // ──────────────────────────────────────────────────────────────────────────
   const [showProfile, setShowProfile] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [students, setStudents] = useState([]);
+  const [loadingStudents, setLoadingStudents] = useState(false);
+  const [studentError, setStudentError] = useState('');
+  const [forumUpdates, setForumUpdates] = useState([]);
+  const [loadingForum, setLoadingForum] = useState(true);
+  const [forumError, setForumError] = useState('');
 
   // ──────────────────────────────────────────────────────────────────────────
   // 2) “Canonical” profile data (from MongoDB)
@@ -137,7 +143,7 @@ const AdminDashboard = () => {
   // 9) Sidebar MENU clicks
   // ──────────────────────────────────────────────────────────────────────────
   const handleMenuClick = menuItem => {
-     if (menuItem === 'Dashboard') {
+    if (menuItem === 'Dashboard') {
       navigate('/dashboard/admin');
     } else if (menuItem === 'Tingkatan') {
       navigate('/tingkatan/admin');
@@ -145,6 +151,8 @@ const AdminDashboard = () => {
       navigate('/forum/admin');
     } else if (menuItem === 'Latihan') {
       navigate('/latihan/admin');
+    } else if (menuItem === 'Cabaran') {
+      navigate('/cabaran/admin');
     }
     setIsSidebarOpen(false);
   };
@@ -311,6 +319,52 @@ const AdminDashboard = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchStudents = async () => {
+      try {
+        const currentUser = auth.currentUser;
+        const token = await currentUser.getIdToken();
+
+        const res = await axios.get('/api/admin/students', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            email: currentUser.email,
+          },
+        });
+        setStudents(res.data);
+      } catch (err) {
+        console.error('Error fetching students:', err);
+        setStudentError('Failed to fetch student list.');
+      } finally {
+        setLoadingStudents(false);
+      }
+    };
+
+    fetchStudents();
+
+    const fetchForumUpdates = async () => {
+      try {
+        const currentUser = auth.currentUser;
+        const token = await currentUser.getIdToken();
+
+        const res = await axios.get('/api/forum-tingkatan-1/activity', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            email: currentUser.email,
+          },
+        });
+        setForumUpdates(res.data);
+      } catch (err) {
+        console.error('Error fetching forum activity:', err);
+        setForumError('Failed to fetch forum activity.');
+      } finally {
+        setLoadingForum(false);
+      }
+    };
+
+    fetchForumUpdates();
+  }, []);
+
   // ──────────────────────────────────────────────────────────────────────────
   // RENDER
   // ──────────────────────────────────────────────────────────────────────────
@@ -329,7 +383,7 @@ const AdminDashboard = () => {
               <li onClick={() => handleMenuClick('Tingkatan')}>Tingkatan</li>
               <li onClick={() => handleMenuClick('Forum')}>Forum</li>
               <li onClick={() => handleMenuClick('Latihan')}>Latihan</li>
-              <li>Quiz</li>
+              <li onClick={() => handleMenuClick('Cabaran')}>Cabaran</li>
             </ul>
           </div>
           <div className={styles.overlay} onClick={toggleSidebar} />
@@ -357,9 +411,8 @@ const AdminDashboard = () => {
           alt="Profile"
           width={45}
           height={45}
-          className={`${styles.iconClickable} ${
-            isSidebarOpen ? styles.disabledIcon : ''
-          }`}
+          className={`${styles.iconClickable} ${isSidebarOpen ? styles.disabledIcon : ''
+            }`}
           onClick={handleShowProfile}
         />
         <img
@@ -377,6 +430,60 @@ const AdminDashboard = () => {
         <h1>Welcome to Admin Dashboard</h1>
         <p>You have successfully logged in as an admin.</p>
       </div>
+
+      <h2>Registered Students</h2>
+      {loadingStudents ? (
+        <p>Loading students…</p>
+      ) : studentError ? (
+        <p className={styles.profileError}>{studentError}</p>
+      ) : (
+        <table className={styles.studentTable}>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Exercise Completion</th>
+            </tr>
+          </thead>
+          <tbody>
+            {students.map((student, index) => (
+              <tr key={index}>
+                <td>{student.username}</td>
+                <td>{student.email}</td>
+                <td>{student.exerciseStats}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+
+      <h2>Latest Forum Activity</h2>
+      {loadingForum ? (
+        <p>Loading forum activity…</p>
+      ) : forumError ? (
+        <p className={styles.profileError}>{forumError}</p>
+      ) : forumUpdates.length === 0 ? (
+        <p>No recent activity.</p>
+      ) : (
+        <ul className={styles.activityList}>
+          {forumUpdates.map((item, idx) => (
+            <li key={idx} className={styles.activityItem}>
+              <strong>{item.type}</strong> by <em>{item.authorUsername}</em>:&nbsp;
+              <span>
+                {item.content.length > 100 ? item.content.slice(0, 100) + '…' : item.content}
+              </span>
+              <div className={styles.timestamp}>
+                {new Date(item.createdAt).toLocaleString()}
+              </div>
+              {item.topicId && (
+                <div className={styles.topicLink}>
+                  View Topic: {item.topicTitle}
+                </div>
+              )}
+            </li>
+          ))}
+        </ul>
+      )}
 
       {/* Profile popup */}
       {showProfile && (

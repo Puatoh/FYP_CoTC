@@ -41,6 +41,8 @@ const Latihan = () => {
       navigate('/forum');
     } else if (menuItem === 'Latihan') {
       navigate('/latihan');
+    }else if (menuItem === 'Cabaran') {
+      navigate('/cabaran');
     }
     setIsSidebarOpen(false);
   };
@@ -72,7 +74,7 @@ const Latihan = () => {
               <li onClick={() => handleMenuClick('Tingkatan')}>Tingkatan</li>
               <li onClick={() => handleMenuClick('Forum')}>Forum</li>
               <li onClick={() => handleMenuClick('Latihan')}>Latihan</li>
-              <li>Quiz</li>
+              <li onClick={() => handleMenuClick('Cabaran')}>Cabaran</li>
             </ul>
           </div>
           <div className={styles.overlay} onClick={toggleSidebar} />

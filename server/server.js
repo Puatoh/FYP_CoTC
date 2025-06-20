@@ -11,6 +11,8 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 const authRoutes           = require('./routes/authRoutes');      // your existing authRoutes
+const adminRoutes          = require('./routes/adminRoutes')
+const forumT1ActivityRoutes = require('./routes/forumT1ActivityRoutes');
 const bab1Routes           = require('./routes/bab1Routes');      // your existing bab1Routes
 const forumT1Routes        = require('./routes/forumT1Routes');   // just created above
 const forumT1CommentRoutes = require('./routes/forumT1CommentRoutes'); // just created above
@@ -20,12 +22,17 @@ const exerciseRoutes       = require('./routes/exerciseRoutes');
 const attemptRoutes        = require('./routes/attemptRoutes');
 const attemptAdminRoutes = require('./routes/attemptAdminRoutes');
 
+const challengeRoutes = require('./routes/challengeRoutes');
+
 app.use(cors());
 app.use(bodyParser.json());
 
 // Mount existing routes:
 app.use('/api/auth', authRoutes);
 app.use('/api/bab1', bab1Routes);
+
+app.use('/api/admin', adminRoutes);
+app.use('/api/forum-tingkatan-1', forumT1ActivityRoutes);
 
 // Mount ForumT1 topic routes:
 app.use('/api/forum-tingkatan-1', forumT1Routes);
@@ -43,6 +50,8 @@ app.use('/api/modules', moduleT1Routes);
 app.use('/api/exercises', exerciseRoutes);
 app.use('/api/attempts', attemptRoutes);
 app.use('/api/attempts', attemptAdminRoutes);
+
+app.use('/api/challenges', challengeRoutes);
 
 // Connect to MongoDB
 mongoose
