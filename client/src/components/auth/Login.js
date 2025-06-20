@@ -12,7 +12,6 @@ export default function Login() {
   const location = useLocation();
   // Determine whether we're on the student side or admin side
   const isAdminMode = location.pathname === '/login/admin';
-  const baseURL = process.env.REACT_APP_API_BASE_URL;
 
   // form holds the values: { email, password }
   const [form, setForm] = useState({ email: '', password: '' });
@@ -22,8 +21,8 @@ export default function Login() {
 
   // Whenever the mode (student vs admin) changes, load any stored credentials
   useEffect(() => {
-    const key = isAdminMode ? 'credentials_admin' : 'credentials_student';
-    const saved = localStorage.getItem(key);
+    const key= isAdminMode ? 'credentials_admin' : 'credentials_student';
+    const saved = localStorage.getItem(key );
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
@@ -51,8 +50,8 @@ export default function Login() {
 
     if (rememberMe) {
       // Persist under the appropriate key
-      const key = isAdminMode ? 'credentials_admin' : 'credentials_student';
-      localStorage.setItem(key, JSON.stringify(updated));
+      const key= isAdminMode ? 'credentials_admin' : 'credentials_student';
+      localStorage.setItem(key , JSON.stringify(updated));
     }
   };
 
@@ -61,13 +60,13 @@ export default function Login() {
     const checked = e.target.checked;
     setRememberMe(checked);
 
-    const key = isAdminMode ? 'credentials_admin' : 'credentials_student';
+    const key= isAdminMode ? 'credentials_admin' : 'credentials_student';
     if (checked) {
       // Save current form values (even if empty, but typically not empty)
-      localStorage.setItem(key, JSON.stringify(form));
+      localStorage.setItem(key , JSON.stringify(form));
     } else {
       // Remove stored credentials
-      localStorage.removeItem(key);
+      localStorage.removeItem(key );
     }
   };
 
@@ -94,9 +93,10 @@ export default function Login() {
       }
 
       // 3) Sync "isVerified" in MongoDB
-      axios.post(`${baseURL}/api/auth/login`, {
-        email: form.email,
-        password: form.password
+      await axios.post('/api/auth/login', {
+        email: user.email,
+        firebaseUid: user.uid,
+        markVerified: true,
       });
 
       // 4) Fetch role/username from backend
