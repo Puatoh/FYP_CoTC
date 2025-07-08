@@ -34,6 +34,7 @@ const uploadProfile = multer({
 
 router.post('/register',      authController.register);
 router.post('/login',         authController.login);
+router.post('/get-role', authController.getRole);
 // // server/routes/authRoutes.js
 // router.get('/me', verifyToken, authController.getMe);
 

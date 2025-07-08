@@ -64,6 +64,30 @@ exports.login = async (req, res) => {
   }
 };
 
+exports.getRole = async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ message: 'Email is required' });
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    return res.json({
+      role: user.role,
+      isVerified: user.isVerified,
+      username: user.username
+    });
+  } catch (err) {
+    console.error('Get role error:', err);
+    return res.status(500).json({ message: 'Server error fetching user role' });
+  }
+};
+
+
 exports.getProfile = async (req, res) => {
   try {
     const userEmail = req.headers.email;

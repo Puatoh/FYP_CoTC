@@ -100,7 +100,7 @@ export default function Login() {
       });
 
       // 4) Fetch role/username from backend
-      const res = await axios.post('/api/auth/login', { email: form.email });
+      const res = await axios.post('/api/auth/get-role', { email: form.email });
       const { username, role } = res.data;
 
       // 5) Store role in localStorage for ProtectedRoute
