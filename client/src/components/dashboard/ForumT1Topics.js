@@ -195,18 +195,18 @@ const ForumT1Topics = () => {
   // ─────────────────────────────────────────────────────────────────
   return (
     <div className={styles.dashboardContainer}>
-      <button className={styles.backButton} onClick={handleBack}>← Back</button>
+      <button className={styles.backButton} onClick={handleBack}>← Kembali</button>
 
       <div className={styles.mainContent}>
         <h1>Forum – Tingkatan 1</h1>
 
         {loadingTopics ? (
-          <p>Loading topics…</p>
+          <p>Memuatkan topik…</p>
         ) : topicsError ? (
           <p style={{ color: 'red' }}>{topicsError}</p>
         ) : topics.length === 0 ? (
           <p style={{ fontStyle: 'italic', marginTop: '1rem' }}>
-            No topics have been created yet.
+            Tiada topik dicipta buat masa ini.
           </p>
         ) : (
           topics.map(topic => (
@@ -214,31 +214,29 @@ const ForumT1Topics = () => {
               <h2>{topic.title}</h2>
               <p>{topic.description}</p>
               <small style={{ color: '#666' }}>
-                Created: {new Date(topic.createdAt).toLocaleString()} &nbsp;|&nbsp; Updated: {new Date(topic.updatedAt).toLocaleString()}
+                Dicipta: {new Date(topic.createdAt).toLocaleString()} &nbsp;|&nbsp; Dikemaskini: {new Date(topic.updatedAt).toLocaleString()}
               </small>
 
               {/* Comments */}
               <div className={styles.commentSection} style={{ marginTop: '1.5rem' }}>
-                <h3>Comments</h3>
+                <h3>Komen</h3>
                 {!commentsByTopic[topic._id] ? (
                   <button
                     className={styles.smallButton}
                     onClick={async () => {
-                      // 1) load comments, capturing the array
                       const cms = await fetchComments(topic._id);
-                      // 2) immediately load each comment's replies
                       cms.forEach(cmt => fetchReplies(topic._id, cmt._id));
                     }}
                     style={{ marginBottom: '0.75rem' }}
                   >
-                    Load Comments
+                    Papar Komen
                   </button>
                 ) : (
                   <ul className={styles.commentList}>
                     {commentsByTopic[topic._id].map(cmt => (
                       <li key={cmt._id} className={styles.commentItem}>
                         <div>
-                          <strong>{cmt.authorUsername}</strong> said:
+                          <strong>{cmt.authorUsername}</strong> menulis:
                         </div>
                         <CommentBody
                           comment={cmt}
@@ -260,7 +258,7 @@ const ForumT1Topics = () => {
                                 }
                               }}
                             >
-                              {showReplyForComment[cmt._id] ? 'Hide Replies' : 'Show Replies'}
+                              {showReplyForComment[cmt._id] ? 'Sembunyi Balasan' : 'Lihat Balasan'}
                             </button>
                           )}
                           <button
@@ -272,7 +270,7 @@ const ForumT1Topics = () => {
                               }))
                             }
                           >
-                            {repliesByComment[`replyForm_${cmt._id}`] ? 'Cancel Reply' : 'Reply'}
+                            {repliesByComment[`replyForm_${cmt._id}`] ? 'Batal Balas' : 'Balas'}
                           </button>
                         </div>
 
@@ -282,7 +280,7 @@ const ForumT1Topics = () => {
                             <textarea
                               rows={2}
                               className={styles.profileInput}
-                              placeholder="Write your reply..."
+                              placeholder="Tulis balasan anda..."
                               value={newReplyByComment[cmt._id] || ''}
                               onChange={e =>
                                 setNewReplyByComment(prev => ({ ...prev, [cmt._id]: e.target.value }))
@@ -297,7 +295,7 @@ const ForumT1Topics = () => {
                               className={styles.profileSaveButton}
                               onClick={() => handleReplySubmit(topic._id, cmt._id)}
                             >
-                              Post Reply
+                              Hantar Balasan
                             </button>
                           </div>
                         )}
@@ -308,7 +306,7 @@ const ForumT1Topics = () => {
                             {(repliesByComment[cmt._id] || []).map((rpl, idx) => (
                               <li key={rpl._id} className={`${styles.replyItem} ${styles[`nestedLevel${(idx % 3)+1}`]}`}>
                                 <div>
-                                  <strong>{rpl.authorUsername}</strong> replied:
+                                  <strong>{rpl.authorUsername}</strong> membalas:
                                 </div>
                                 <div className={styles.commentContent}>
                                   {editingReplyId === rpl._id ? (
@@ -325,13 +323,13 @@ const ForumT1Topics = () => {
                                           handleUpdateReply(topic._id, cmt._id, rpl._id, editedReplyContent)
                                         }
                                       >
-                                        Save
+                                        Simpan
                                       </button>
                                       <button
                                         className={styles.profileCancelButton}
                                         onClick={() => setEditingReplyId(null)}
                                       >
-                                        Cancel
+                                        Batal
                                       </button>
                                     </>
                                   ) : (
@@ -346,13 +344,13 @@ const ForumT1Topics = () => {
                                               setEditedReplyContent(rpl.content);
                                             }}
                                           >
-                                            Edit
+                                            Sunting
                                           </button>
                                           <button
                                             className={styles.deleteButton}
                                             onClick={() => handleDeleteReply(topic._id, cmt._id, rpl._id)}
                                           >
-                                            Delete
+                                            Padam
                                           </button>
                                         </>
                                       )}
@@ -368,7 +366,7 @@ const ForumT1Topics = () => {
                     ))}
                     {commentsByTopic[topic._id].length === 0 && (
                       <li style={{ fontStyle: 'italic', marginTop: '0.5rem' }}>
-                        No comments yet. Be the first to comment below!
+                        Tiada komen lagi. Jadilah yang pertama memberi komen!
                       </li>
                     )}
                   </ul>
@@ -381,7 +379,7 @@ const ForumT1Topics = () => {
                     onChange={e =>
                       setNewCommentByTopic(prev => ({ ...prev, [topic._id]: e.target.value }))
                     }
-                    placeholder="Write a comment..."
+                    placeholder="Tulis komen anda..."
                     className={styles.profileInput}
                     rows={3}
                   />
@@ -394,7 +392,7 @@ const ForumT1Topics = () => {
                     onClick={() => handleCommentSubmit(topic._id)}
                     className={styles.profileSaveButton}
                   >
-                    Post Comment
+                    Hantar Komen
                   </button>
                 </div>
               </div>
@@ -429,13 +427,13 @@ const CommentBody = ({ comment, topicId, isAuthor, onUpdate, onDelete }) => {
         className={styles.profileSaveButton}
         style={{ marginRight: '0.5rem' }}
       >
-        Save
+        Simpan
       </button>
       <button
         onClick={() => { setIsEditing(false); setDraft(comment.content); }}
         className={styles.profileCancelButton}
       >
-        Cancel
+        Batal
       </button>
     </div>
   ) : (
@@ -448,10 +446,10 @@ const CommentBody = ({ comment, topicId, isAuthor, onUpdate, onDelete }) => {
             className={styles.smallButton}
             style={{ marginRight: '0.5rem' }}
           >
-            Edit
+            Sunting
           </button>
           <button onClick={onDelete} className={styles.deleteButton}>
-            Delete
+            Padam
           </button>
         </div>
       )}

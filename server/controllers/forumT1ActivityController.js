@@ -43,7 +43,7 @@ exports.getRecentActivity = async (req, res) => {
 
     const combined = [...mappedComments, ...mappedReplies]
       .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-      .slice(0, 5); // limit to 5
+      .slice(0, 3); // limit to 5
 
     res.json(combined);
   } catch (err) {

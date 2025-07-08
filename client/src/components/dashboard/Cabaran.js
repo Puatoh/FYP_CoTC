@@ -15,29 +15,53 @@ const Cabaran = () => {
   const [loading, setLoading] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showAchievements, setShowAchievements] = useState(false);
+  const [achievements, setAchievements] = useState([]);
+
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchChallenges = async () => {
-      setLoading(true);
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+      if (!user) {
+        console.error('User not logged in');
+        navigate('/login');
+        return;
+      }
+
       try {
-        const token = await auth.currentUser.getIdToken();
-        const res = await axios.get('/api/challenges', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            email: auth.currentUser.email,
-          },
-        });
-        setChallenges(res.data || []);
+        setLoading(true);
+        const token = await user.getIdToken();
+
+        const [resChallenges, resAttempts, resAchievements] = await Promise.all([
+          axios.get('/api/challenges', {
+            headers: { Authorization: `Bearer ${token}`, email: user.email }
+          }),
+          axios.get('/api/challenge-attempts/student', {
+            headers: { Authorization: `Bearer ${token}`, email: user.email }
+          }),
+          axios.get('/api/challenge-attempts/student/achievements', {
+            headers: { Authorization: `Bearer ${token}`, email: user.email }
+          }),
+        ]);
+
+        const challengesData = resChallenges.data || [];
+        const attemptedIds = resAttempts.data.map((a) => String(a.challenge));
+
+        const updatedChallenges = challengesData.map((ch) => ({
+          ...ch,
+          hasAttempted: attemptedIds.includes(ch._id),
+        }));
+
+        setChallenges(updatedChallenges);
+        setAchievements(resAchievements.data || []);
       } catch (err) {
-        console.error('Gagal memuatkan cabaran:', err);
+        console.error('Gagal memuatkan cabaran atau cubaan:', err);
       } finally {
         setLoading(false);
       }
-    };
+    });
 
-    fetchChallenges();
+    return () => unsubscribe();
   }, []);
 
   const filteredChallenges = challenges.filter(c => {
@@ -46,6 +70,7 @@ const Cabaran = () => {
   });
 
   const openChallengeModal = ch => {
+    if (ch.status !== 'Aktif' || ch.hasAttempted) return;
     setSelectedChallenge(ch);
   };
 
@@ -171,10 +196,18 @@ const Cabaran = () => {
                       <li key={i}>{lb.name}: {lb.score}</li>
                     ))}
                   </ul>
-                  <button className={styles.smallButton} onClick={() => navigate(`/cabaran-leaderboard/${ch._id}`)}>Lihat Penuh</button>
+                  <button className={styles.smallButton} onClick={() => navigate(`/cabaran-leaderboard/${ch._id}`)}>Lihat Penuh Rank</button>
                 </div>
-                <button className={styles.profileSaveButton} onClick={() => openChallengeModal(ch)}>
-                  Sertai / Lihat
+                <button
+                  className={styles.profileSaveButton}
+                  onClick={() => openChallengeModal(ch)}
+                  disabled={ch.hasAttempted}
+                  style={{
+                    opacity: ch.hasAttempted ? 0.5 : 1,
+                    cursor: ch.hasAttempted ? 'not-allowed' : 'pointer'
+                  }}
+                >
+                  {ch.hasAttempted ? 'Sudah Disertai' : 'Sertai !'}
                 </button>
               </div>
             ))}
@@ -205,23 +238,31 @@ const Cabaran = () => {
         <>
           <div className={styles.popupOverlay} onClick={handleCloseAchievements} />
           <div className={styles.popupBox}>
-            <h2>Achievements</h2>
+            <h2>Pencapaian</h2>
             <button onClick={handleCloseAchievements} className={styles.closeButton}>✖</button>
 
             <table className={styles.achievementTable}>
               <thead>
                 <tr>
-                  <th>Competition Name</th>
-                  <th>Date Joined</th>
-                  <th>Rank</th>
+                  <th>Nama Pertandingan</th>
+                  <th>Tarikh Sertai</th>
+                  <th>Kedudukan</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td colSpan="3" className={styles.noRecord}>
-                    No Record Found
-                  </td>
-                </tr>
+                {achievements.length === 0 ? (
+                  <tr>
+                    <td colSpan="3" className={styles.noRecord}>No Record Found</td>
+                  </tr>
+                ) : (
+                  achievements.map((ach, idx) => (
+                    <tr key={idx}>
+                      <td>{ach.title}</td>
+                      <td>{new Date(ach.date).toLocaleDateString('ms-MY')}</td>
+                      <td>{ach.rank}</td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>

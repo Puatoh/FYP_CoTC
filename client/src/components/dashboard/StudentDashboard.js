@@ -1,5 +1,5 @@
 // src/components/dashboard/StudentDashboard.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../firebase-config';
@@ -13,11 +13,18 @@ import styles      from './styles/StudentDashboard.module.css';
 const StudentDashboard = () => {
   const navigate = useNavigate();
 
+  const [currentTime, setCurrentTime] = useState('');
+  const [latestModules, setLatestModules] = useState([]);
+  const [forumUpdates, setForumUpdates] = useState([]);
+  const [loadingForum, setLoadingForum] = useState(true);
+  const [forumError, setForumError] = useState('');
+
   // ──────────────────────────────────────────────────────────────────────────
   // 1) Popup / sidebar state
   // ──────────────────────────────────────────────────────────────────────────
   const [showProfile, setShowProfile] = useState(false);
   const [showAchievements, setShowAchievements] = useState(false);
+  const [achievements, setAchievements] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // ──────────────────────────────────────────────────────────────────────────
@@ -44,11 +51,72 @@ const StudentDashboard = () => {
   const [showAvatarOptions, setShowAvatarOptions] = useState(false);
   const [imageError, setImageError] = useState('');
 
+  const [latestExercises, setLatestExercises] = useState([]);
+
+  useEffect(() => {
+    const updateClock = () => {
+      const now = new Date();
+      const timeString = now.toLocaleTimeString('ms-MY', { hour12: false });
+      setCurrentTime(timeString);
+    };
+
+    updateClock(); // initialize immediately
+    const intervalId = setInterval(updateClock, 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  useEffect(() => {
+  const fetchLatestModules = async () => {
+    try {
+      const token = await auth.currentUser.getIdToken();
+      const res = await axios.get('/api/modules/tingkatan1', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          email: auth.currentUser.email
+        }
+      });
+      // Keep only the 5 most recent
+      setLatestModules(res.data.slice(0, 3));
+    } catch (err) {
+      console.error('Error fetching latest modules:', err);
+      setLatestModules([]);
+    }
+  };
+
+  fetchLatestModules();
+  }, []);
+
+  useEffect(() => {
+    const fetchForumUpdates = async () => {
+      try {
+        const currentUser = auth.currentUser;
+        if (!currentUser) return;
+
+        const token = await currentUser.getIdToken();
+        const res = await axios.get('/api/forum-tingkatan-1/activity', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            email: currentUser.email,
+          },
+        });
+        setForumUpdates(res.data);
+      } catch (err) {
+        console.error('Error fetching forum activity:', err);
+        setForumError('Gagal memuatkan aktiviti forum.');
+      } finally {
+        setLoadingForum(false);
+      }
+    };
+
+    fetchForumUpdates();
+  }, []);
+
   // ──────────────────────────────────────────────────────────────────────────
   // 5) LOGOUT
   // ──────────────────────────────────────────────────────────────────────────
   const handleLogout = async () => {
-    const confirmLogout = window.confirm('Are you sure you want to logout?');
+    const confirmLogout = window.confirm('Adakah anda pasti ingin log keluar?');
     if (!confirmLogout) {
       // “Cancel” → do nothing, stay on dashboard
       return;
@@ -134,11 +202,26 @@ const StudentDashboard = () => {
   // ──────────────────────────────────────────────────────────────────────────
   // 9) SHOW/HIDE ACHIEVEMENTS
   // ──────────────────────────────────────────────────────────────────────────
-  const handleShowAchievements = () => {
-    if (!isSidebarOpen) {
+  const handleShowAchievements = async () => {
+    if (isSidebarOpen || showProfile) return;
+
+    try {
+      const token = await auth.currentUser.getIdToken();
+      const res = await axios.get('/api/challenge-attempts/student/achievements', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          email: auth.currentUser.email
+        }
+      });
+      setAchievements(res.data);
+      setShowAchievements(true);
+    } catch (err) {
+      console.error('Error fetching achievements:', err);
+      setAchievements([]);
       setShowAchievements(true);
     }
   };
+
   const handleCloseAchievements = () => {
     setShowAchievements(false);
   };
@@ -176,7 +259,7 @@ const StudentDashboard = () => {
   const handlePreviewImage = () => {
     if (!profileData.photoURL) {
       setShowAvatarOptions(false);
-      setImageError('No photo to preview.');
+      setImageError('Tiada gambar untuk dipratonton.');
       return;
     }
     window.open(profileData.photoURL, '_blank');
@@ -194,13 +277,13 @@ const StudentDashboard = () => {
     const ext = file.name.split('.').pop().toLowerCase();
     if (!['jpg','jpeg','png'].includes(ext)) {
       setShowAvatarOptions(false);
-      setImageError('Only .jpg, .jpeg, .png allowed.');
+      setImageError('Hanya .jpg, .jpeg, .png dibenarkan.');
       e.target.value = null;
       return;
     }
     if (file.size > 100 * 1024 * 1024) {
       setShowAvatarOptions(false);
-      setImageError('Image size must be under 100 MB.');
+      setImageError('Saiz gambar mesti kurang daripada 100 MB.');
       e.target.value = null;
       return;
     }
@@ -221,11 +304,11 @@ const StudentDashboard = () => {
   // ──────────────────────────────────────────────────────────────────────────
   const handleDeleteImage = async () => {
     if (!profileData.photoURL) {
-      setImageError('No photo to delete.');
+      setImageError('Tiada gambar untuk dipadam.');
       setShowAvatarOptions(false);
       return;
     }
-    if (!window.confirm('Delete profile photo?')) {
+    if (!window.confirm('Padam gambar profil?')) {
       return;
     }
     try {
@@ -238,14 +321,14 @@ const StudentDashboard = () => {
         }
       });
 
-      alert('Photo deleted successfully.');
+      alert('Gambar berjaya dipadam.');
       setProfileData(prev => ({ ...prev, photoURL: '' }));
       setAvatarFile(null);
       setAvatarPreview('');
       setShowAvatarOptions(false);
     } catch (err) {
       console.error('Error deleting photo:', err);
-      setImageError('Deletion failed. Please try again.');
+      setImageError('Pemadaman gagal. Sila cuba lagi.');
       setShowAvatarOptions(false);
     }
   };
@@ -261,11 +344,11 @@ const StudentDashboard = () => {
     const trimmed = newUsername.trim();
     const usernameRegex = /^[a-zA-Z0-9]{3,20}$/;
     if (!trimmed) {
-      setProfileError('Username cannot be empty.');
+      setProfileError('Nama pengguna tidak boleh kosong.');
       return;
     }
     if (!usernameRegex.test(trimmed)) {
-      setProfileError('3–20 alphanumeric characters only.');
+      setProfileError('3–20 aksara alfanumerik sahaja.');
       return;
     }
 
@@ -310,7 +393,7 @@ const StudentDashboard = () => {
         setProfileData(prev => ({ ...prev, username: trimmed }));
       }
 
-      alert('Changes updated successfully!');
+      alert('Perubahan berjaya dikemas kini!');
       handleCloseProfile();
     } catch (err) {
       console.error('Error saving profile:', err);
@@ -318,7 +401,7 @@ const StudentDashboard = () => {
         // show either the “Only .jpg allowed” or “Username already taken” message
         setImageError(err.response.data.message);
       } else {
-        setProfileError('Could not save changes. Please try again.');
+        setProfileError('Tidak dapat menyimpan perubahan. Sila cuba lagi.');
       }
       setShowAvatarOptions(false);
     }
@@ -339,7 +422,7 @@ const StudentDashboard = () => {
             >
               ←
             </div>
-            <h3 className={styles.sidebarTitle}>Dashboard Menu</h3>
+            <h3 className={styles.sidebarTitle}>Menu Utama</h3>
             <ul className={styles.sidebarList}>
               <li onClick={() => handleMenuClick('Dashboard')}>
                 Dashboard
@@ -410,9 +493,68 @@ const StudentDashboard = () => {
 
       {/* Main content */}
       <div className={styles.mainContent}>
-        <h1>Welcome to Student Dashboard</h1>
-        <p>You have successfully logged in as a student.</p>
+        <h1>Selamat Datang ke Papan Pemuka Pelajar</h1>
+        <p>Anda telah berjaya log masuk sebagai pelajar.</p>
+        <div className={styles.currentTime}>
+          <span>Masa Sekarang: </span>{currentTime}
+        </div>
+        <div className={styles.latestModulesSection}>
+          <h2>Modul Terbaru</h2>
+          {latestModules.length === 0 ? (
+            <p>Tiada modul baru ditemui.</p>
+          ) : (
+            <table className={styles.latestModulesTable}>
+              <thead>
+                <tr>
+                  <th>No.</th> {/* Numbering column */}
+                  <th>Tajuk Modul</th>
+                  <th>Deskripsi</th>
+                  <th>Dikemas Kini</th>
+                </tr>
+              </thead>
+              <tbody>
+                {latestModules.map((moduleId, index) => (
+                  <tr key={moduleId._id}>
+                    <td>{index + 1}</td> {/* Display 1-based numbering */}
+                    <td>{moduleId.title}</td>
+                    <td>{moduleId.description || '-'}</td>
+                    <td>{new Date(moduleId.updatedAt).toLocaleDateString('ms-MY')}</td>
+                  </tr>
+                ))}
+              </tbody>
 
+            </table>
+          )}
+        </div>
+        <div className={styles.latestModulesSection}>
+          <h2>Aktiviti Forum Terkini</h2>
+          {loadingForum ? (
+            <p>Memuatkan aktiviti forum…</p>
+          ) : forumError ? (
+            <p className={styles.profileError}>{forumError}</p>
+          ) : forumUpdates.length === 0 ? (
+            <p>Tiada aktiviti terbaru.</p>
+          ) : (
+            <ul className={styles.activityList}>
+              {forumUpdates.map((item, idx) => (
+                <li key={idx} className={styles.activityItem}>
+                  <strong>{item.type}</strong> oleh <em>{item.authorUsername}</em>:&nbsp;
+                  <span>
+                    {item.content.length > 100 ? item.content.slice(0, 100) + '…' : item.content}
+                  </span>
+                  <div className={styles.timestamp}>
+                    {new Date(item.createdAt).toLocaleString('ms-MY')}
+                  </div>
+                  {item.topicId && (
+                    <div className={styles.topicLink}>
+                      Topik: {item.topicTitle}
+                    </div>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
         {/* Achievements popup */}
         {showAchievements && (
           <>
@@ -421,7 +563,7 @@ const StudentDashboard = () => {
               onClick={handleCloseAchievements}
             />
             <div className={styles.popupBox}>
-              <h2>Achievements</h2>
+              <h2>Pencapaian</h2>
               <button
                 onClick={handleCloseAchievements}
                 className={styles.closeButton}
@@ -431,20 +573,25 @@ const StudentDashboard = () => {
               <table className={styles.achievementTable}>
                 <thead>
                   <tr>
-                    <th>Competition Name</th>
-                    <th>Date Joined</th>
-                    <th>Rank</th>
+                    <th>Nama Pertandingan</th>
+                    <th>Tarikh Sertai</th>
+                    <th>Kedudukan</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td
-                      colSpan="3"
-                      className={styles.noRecord}
-                    >
-                      No Record Found
-                    </td>
-                  </tr>
+                  {achievements.length === 0 ? (
+                    <tr>
+                      <td colSpan="3" className={styles.noRecord}>Tiada Rekod Ditemui</td>
+                    </tr>
+                  ) : (
+                    achievements.map((ach, index) => (
+                      <tr key={index}>
+                        <td>{ach.title}</td>
+                        <td>{new Date(ach.date).toLocaleDateString('ms-MY')}</td>
+                        <td>{ach.rank}</td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>
@@ -459,7 +606,7 @@ const StudentDashboard = () => {
               onClick={handleCloseProfile}
             />
             <div className={styles.popupBox}>
-              <h2>My Profile</h2>
+              <h2>Profil Saya</h2>
               <button
                 onClick={handleCloseProfile}
                 className={styles.closeButton}
@@ -485,7 +632,7 @@ const StudentDashboard = () => {
                         className={styles.profileAvatarPlaceholder}
                         onClick={handleAvatarClick}
                       >
-                        No Photo
+                        Tiada Gambar
                       </div>
                     )}
 
@@ -493,10 +640,10 @@ const StudentDashboard = () => {
                     {showAvatarOptions && (
                       <div className={styles.avatarOptions}>
                         <button onClick={handlePreviewImage}>
-                          Preview Image
+                          Lihat Gambar
                         </button>
                         <label className={styles.uploadLabel}>
-                          Upload New
+                          Muat Naik Baharu
                           <input
                             type="file"
                             accept=".jpg,.jpeg,.png"
@@ -505,7 +652,7 @@ const StudentDashboard = () => {
                           />
                         </label>
                         <button onClick={handleDeleteImage}>
-                          Delete Image
+                          Padam Gambar
                         </button>
                       </div>
                     )}
@@ -528,7 +675,7 @@ const StudentDashboard = () => {
                   {/* Editable username + static email */}
                   <div className={styles.profileInfoForm}>
                     <label>
-                      <strong>Name:</strong>
+                      <strong>Nama:</strong>
                     </label>
                     <input
                       type="text"
@@ -565,13 +712,13 @@ const StudentDashboard = () => {
                         onClick={handleSaveProfile}
                         className={styles.profileSaveButton}
                       >
-                        Save
+                        Simpan
                       </button>
                       <button
                         onClick={handleCloseProfile}
                         className={styles.profileCancelButton}
                       >
-                        Cancel
+                        Batal
                       </button>
                     </div>
                   </div>

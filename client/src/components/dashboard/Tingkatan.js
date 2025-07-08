@@ -12,6 +12,7 @@ const Tingkatan = () => {
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showAchievements, setShowAchievements] = useState(false);
+  const [achievements, setAchievements] = useState([]);
 
   const handleLogout = async () => {
     const confirmLogout = window.confirm('Are you sure you want to logout?');
@@ -49,12 +50,37 @@ const Tingkatan = () => {
 
   const handleShowAchievements = () => {
     if (!isSidebarOpen) {
+      fetchAchievements();
       setShowAchievements(true);
     }
   };
 
   const handleCloseAchievements = () => {
     setShowAchievements(false);
+  };
+
+  const fetchAchievements = async () => {
+    const user = auth.currentUser;
+    if (!user) {
+      console.error("User not logged in");
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const token = await user.getIdToken();
+      const res = await fetch("/api/challenge-attempts/student/achievements", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          email: user.email,
+        },
+      });
+      if (!res.ok) throw new Error("Failed to fetch achievements");
+      const data = await res.json();
+      setAchievements(data);
+    } catch (err) {
+      console.error("Error loading achievements:", err);
+    }
   };
 
   const handleTingkatan1Click = () => {
@@ -132,23 +158,31 @@ const Tingkatan = () => {
         <>
           <div className={styles.popupOverlay} onClick={handleCloseAchievements} />
           <div className={styles.popupBox}>
-            <h2>Achievements</h2>
+            <h2>Pencapaian</h2>
             <button onClick={handleCloseAchievements} className={styles.closeButton}>✖</button>
 
             <table className={styles.achievementTable}>
               <thead>
                 <tr>
-                  <th>Competition Name</th>
-                  <th>Date Joined</th>
-                  <th>Rank</th>
+                  <th>Nama Pertandingan</th>
+                    <th>Tarikh Sertai</th>
+                    <th>Kedudukan</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td colSpan="3" className={styles.noRecord}>
-                    No Record Found
-                  </td>
-                </tr>
+                {achievements.length === 0 ? (
+                  <tr>
+                    <td colSpan="3" className={styles.noRecord}>Tiada Rekod Ditemui</td>
+                  </tr>
+                ) : (
+                  achievements.map((ach, index) => (
+                    <tr key={index}>
+                      <td>{ach.title}</td>
+                      <td>{new Date(ach.date).toLocaleDateString('ms-MY')}</td>
+                      <td>{ach.rank}</td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>

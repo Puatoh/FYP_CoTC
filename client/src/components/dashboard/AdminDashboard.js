@@ -305,7 +305,7 @@ const AdminDashboard = () => {
         setProfileData(prev => ({ ...prev, username: trimmed }));
       }
 
-      alert('Changes updated successfully!');
+      alert('Perubahan berjaya dikemas kini!');
       handleCloseProfile();
     } catch (err) {
       console.error('Error saving profile:', err);
@@ -427,11 +427,11 @@ const AdminDashboard = () => {
 
       {/* Main content */}
       <div className={styles.mainContent}>
-        <h1>Welcome to Admin Dashboard</h1>
-        <p>You have successfully logged in as an admin.</p>
+        <h1>Selamat datang ke Papan Pemuka Admin</h1>
+        <p>Anda telah berjaya log masuk sebagai admin.</p>
       </div>
 
-      <h2>Registered Students</h2>
+      <h2>Senarai Pelajar Berdaftar</h2>
       {loadingStudents ? (
         <p>Loading students…</p>
       ) : studentError ? (
@@ -440,9 +440,9 @@ const AdminDashboard = () => {
         <table className={styles.studentTable}>
           <thead>
             <tr>
-              <th>Name</th>
+              <th>Nama</th>
               <th>Email</th>
-              <th>Exercise Completion</th>
+              <th>Selesai Latihan</th>
             </tr>
           </thead>
           <tbody>
@@ -457,7 +457,7 @@ const AdminDashboard = () => {
         </table>
       )}
 
-      <h2>Latest Forum Activity</h2>
+      <h2>Aktiviti Forum Terkini</h2>
       {loadingForum ? (
         <p>Loading forum activity…</p>
       ) : forumError ? (
@@ -468,7 +468,7 @@ const AdminDashboard = () => {
         <ul className={styles.activityList}>
           {forumUpdates.map((item, idx) => (
             <li key={idx} className={styles.activityItem}>
-              <strong>{item.type}</strong> by <em>{item.authorUsername}</em>:&nbsp;
+              <strong>{item.type}</strong> oleh <em>{item.authorUsername}</em>:&nbsp;
               <span>
                 {item.content.length > 100 ? item.content.slice(0, 100) + '…' : item.content}
               </span>
@@ -477,7 +477,7 @@ const AdminDashboard = () => {
               </div>
               {item.topicId && (
                 <div className={styles.topicLink}>
-                  View Topic: {item.topicTitle}
+                  Topik: {item.topicTitle}
                 </div>
               )}
             </li>
@@ -490,7 +490,7 @@ const AdminDashboard = () => {
         <>
           <div className={styles.popupOverlay} onClick={handleCloseProfile} />
           <div className={styles.popupBox}>
-            <h2>My Profile</h2>
+            <h2>Profil Saya</h2>
             <button onClick={handleCloseProfile} className={styles.closeButton}>
               ✖
             </button>
@@ -550,7 +550,7 @@ const AdminDashboard = () => {
                 {/* Editable username + static email */}
                 <div className={styles.profileInfoForm}>
                   <label>
-                    <strong>Name:</strong>
+                    <strong>Nama:</strong>
                   </label>
                   <input
                     type="text"
@@ -579,13 +579,13 @@ const AdminDashboard = () => {
                       onClick={handleSaveProfile}
                       className={styles.profileSaveButton}
                     >
-                      Save
+                      Simpan
                     </button>
                     <button
                       onClick={handleCloseProfile}
                       className={styles.profileCancelButton}
                     >
-                      Cancel
+                      Batal
                     </button>
                   </div>
                 </div>

@@ -162,7 +162,7 @@ const LatihanTingkatan1 = () => {
       setSubmitted(true);
       localStorage.removeItem(`latihan1_${moduleId}`);
     } catch (err) {
-      console.error('Submit failed:', err);
+      console.error('Gagal menghantar jawapan. Sila cuba lagi.', err);
       alert('Gagal menghantar jawapan. Sila cuba lagi.');
     }
   };
@@ -180,7 +180,7 @@ const LatihanTingkatan1 = () => {
   return (
     <div className={styles.dashboardContainer}>
       <button className={styles.backButton} onClick={handleBack}>
-        ← Back
+        ← Kembali
       </button>
       <div className={styles.mainContent}>
         <h1>{moduleTitle}</h1>

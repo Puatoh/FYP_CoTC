@@ -89,6 +89,35 @@
   padding-top: 3rem;
 }
 
+.currentTime {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-top: 0.5rem;
+  color: #333;
+}
+
+.latestModulesSection {
+  margin-top: 20px;
+}
+
+.latestModulesTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.latestModulesTable th,
+.latestModulesTable td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+.latestModulesTable th {
+  background-color: #f5f5f5;
+}
+
+
+
 /* Profile‐specific styles inside the same “popupBox” */
 .profileContent {
   display: flex;
@@ -623,6 +652,185 @@
   color: red;
 }
 
+.challengeGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.challengeCard {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  transition: transform 0.2s ease;
+  position: relative;
+}
+
+.challengeCard:hover {
+  transform: translateY(-5px);
+}
+
+.challengeTitle {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #1a237e;
+  margin-bottom: 0.5rem;
+}
+
+.statusActive {
+  background-color: #43a047;
+  color: white;
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.statusClosed {
+  background-color: #b71c1c;
+  color: white;
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.leaderboardPreview {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.leaderboardPreview ul {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
+}
+
+.leaderboardPreview li {
+  margin-bottom: 0.3rem;
+}
+
+
+.popupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+}
+
+@keyframes fadeIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.profileSaveButton {
+  background-color: #42c2d0;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  margin-top: 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.profileSaveButton:hover {
+  background-color: #126181;
+}
+
+.profileCancelButton {
+  background-color: rgb(21, 8, 167);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-left: 0.5rem;
+}
+
+.iconClickable {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.iconClickable:hover {
+  transform: scale(1.1);
+}
+
+.requiredSelection {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.warningText {
+  color: #d32f2f;
+  margin-bottom: 1rem;
+}
+
+.selectNote {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #1a237e;
+}
+
+.tooManyWarning {
+  color: #d32f2f;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.choicesWrapper {
+  display: grid;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.choiceButton {
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #f0f0f0;
+  text-align: left;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.choiceButton:hover {
+  background-color: #e0f7fa;
+}
+
+.selected {
+  background-color: #bbdefb;
+  border: 2px solid #2196f3;
+}
+
+.correctAnswer {
+  background-color: #c8e6c9;
+  border-color: #388e3c;
+}
+
+.wrongAnswer {
+  background-color: #ffcdd2;
+  border-color: #d32f2f;
+}
+
+.musicToggle {
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+
+
 .leaderboardContainer {
   background-color: #f9fbff;
   padding: 2rem;
@@ -680,7 +888,7 @@
 }
 
 .smallButton {
-  background-color: #1976d2;
+  background-color: #685203;
   color: white;
   border: none;
   padding: 0.3rem 0.6rem;

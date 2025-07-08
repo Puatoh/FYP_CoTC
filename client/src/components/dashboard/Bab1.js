@@ -32,7 +32,7 @@ const Bab1 = () => {
 
   return (
     <div className={styles.container}>
-      <button onClick={handleBack} className={styles.backButton}>Back</button>
+      <button onClick={handleBack} className={styles.backButton}>Kembali</button>
 
       <h1>Bab 1 Contents</h1>
 
@@ -55,7 +55,7 @@ const Bab1 = () => {
                   rel="noopener noreferrer"
                   className={styles.viewButton}
                 >
-                  View PDF
+                  Lihat PDF
                 </a>
               </li>
             ))

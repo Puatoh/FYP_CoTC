@@ -81,6 +81,29 @@ const AdminCabaran = () => {
     navigate('/cabaran-soalan/admin');
   };
 
+  const handleDeleteChallenge = async (challengeId) => {
+  const confirmDelete = window.confirm('Padam cabaran ini? Tindakan ini tidak boleh dibatalkan.');
+  if (!confirmDelete) return;
+
+  try {
+    const token = await auth.currentUser.getIdToken();
+    await axios.delete(`/api/challenges/${challengeId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        email: auth.currentUser.email,
+      },
+    });
+
+    const updated = challenges.filter(ch => ch._id !== challengeId);
+    setChallenges(updated);
+    setFilteredChallenges(updated.filter(ch => ch.title.toLowerCase().includes(searchTerm)));
+  } catch (err) {
+    console.error('Gagal memadam cabaran:', err);
+    alert('Terdapat ralat semasa memadam cabaran.');
+  }
+};
+
+
   return (
     <div className={styles.dashboardContainer}>
       {isSidebarOpen && (
@@ -182,12 +205,12 @@ const AdminCabaran = () => {
                 <tr key={challenge._id}>
                   <td>{challenge.title}</td>
                   <td>{challenge.questions.length}</td>
-                  <td>{challenge.status || 'Draf'}</td>
+                  <td>{challenge.status}</td>
                   <td>{new Date(challenge.createdAt).toLocaleDateString('ms-MY')}</td>
                   <td>
                     <button onClick={() => navigate(`/cabaran-soalan/admin?id=${challenge._id}`)} className={styles.actionBtn}>Edit</button>
-                    <button onClick={() => navigate(`/cabaran-leaderboard/${challenge._id}`)}> Leaderboard </button>
-                    <button className={`${styles.actionBtn} ${styles.deleteBtn}`}>Padam</button>
+                    <button onClick={() => navigate(`/cabaran-leaderboard/${challenge._id}`)} className={styles.actionBtn}> Leaderboard </button>
+                    <button onClick={() => handleDeleteChallenge(challenge._id)} className={`${styles.actionBtn} ${styles.deleteBtn}`} > Padam</button>
                   </td>
                 </tr>
               ))}

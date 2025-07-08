@@ -5,20 +5,19 @@ import { auth } from '../../firebase-config';
 import axios from 'axios';
 import styles from './styles/StudentDashboard.module.css';
 
-const FILTERS = ['All', 'Completed', 'Incomplete'];
+const FILTERS = ['Semua', 'Selesai', 'Belum Selesai'];
 
 const LatihanModuleTingkatan1 = () => {
   const navigate = useNavigate();
   const [modules, setModules]       = useState([]);
-  const [statusMap, setStatusMap]   = useState({}); // { [moduleId]: { attempted: bool, lastAttempt: Date } }
+  const [statusMap, setStatusMap]   = useState({});
   const [loading, setLoading]       = useState(true);
   const [error, setError]           = useState('');
-  const [activeFilter, setActiveFilter] = useState('All');
+  const [activeFilter, setActiveFilter] = useState('Semua');
   const [searchTerm, setSearchTerm] = useState('');
 
   const barRef = useRef(null);
 
-  // Fetch modules & their attempt status
   useEffect(() => {
     const load = async () => {
       try {
@@ -31,7 +30,6 @@ const LatihanModuleTingkatan1 = () => {
         ]);
         setModules(mods);
 
-        // Fetch attempt status for each module
         const statusEntries = await Promise.all(
           mods.map(async (m) => {
             try {
@@ -51,7 +49,7 @@ const LatihanModuleTingkatan1 = () => {
         setStatusMap(Object.fromEntries(statusEntries));
       } catch (err) {
         console.error(err);
-        setError('Could not load modules. Try again later.');
+        setError('Gagal memuatkan modul. Sila cuba lagi kemudian.');
       } finally {
         setLoading(false);
       }
@@ -59,11 +57,10 @@ const LatihanModuleTingkatan1 = () => {
     load();
   }, []);
 
-  // Compute filtered list
   const filtered = modules.filter((m) => {
     const { attempted } = statusMap[m._id] || {};
-    if (activeFilter === 'Completed' && !attempted) return false;
-    if (activeFilter === 'Incomplete' && attempted) return false;
+    if (activeFilter === 'Selesai' && !attempted) return false;
+    if (activeFilter === 'Belum Selesai' && attempted) return false;
     if (searchTerm && !m.title.toLowerCase().includes(searchTerm.toLowerCase()))
       return false;
     return true;
@@ -76,11 +73,11 @@ const LatihanModuleTingkatan1 = () => {
   return (
     <div className={styles.dashboardContainer}>
       <button className={styles.backButton} onClick={handleBack}>
-        ← Back
+        ← Kembali
       </button>
 
       <div className={styles.mainContent}>
-        <h1>Latihan Tingkatan 1 Modules</h1>
+        <h1>Modul Latihan Tingkatan 1</h1>
 
         {/* ─── Sticky Filter Bar ─────────────────────────────────────────────── */}
         <div
@@ -121,7 +118,7 @@ const LatihanModuleTingkatan1 = () => {
           {/* Search */}
           <input
             type="text"
-            placeholder="Search modules..."
+            placeholder="Cari modul..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             style={{
@@ -134,11 +131,11 @@ const LatihanModuleTingkatan1 = () => {
         </div>
 
         {loading ? (
-          <p>Loading modules…</p>
+          <p>Memuatkan modul…</p>
         ) : error ? (
           <p style={{ color: 'red' }}>{error}</p>
         ) : filtered.length === 0 ? (
-          <p style={{ fontStyle: 'italic' }}>No modules to display.</p>
+          <p style={{ fontStyle: 'italic' }}>Tiada modul untuk dipaparkan.</p>
         ) : (
           filtered.map((mod) => {
             const stat = statusMap[mod._id] || {};
@@ -167,20 +164,20 @@ const LatihanModuleTingkatan1 = () => {
                     fontSize: '0.75rem'
                   }}
                 >
-                  {stat.attempted ? 'Completed' : 'Incomplete'}
+                  {stat.attempted ? 'Selesai' : 'Belum Selesai'}
                 </span>
 
                 {/* Title & Description */}
                 <h2 style={{ margin: '0 0 0.25rem' }}>{mod.title}</h2>
                 <p style={{ margin: '0 0 0.5rem' }}>
-                  {mod.description || <em>No description.</em>}
+                  {mod.description || <em>Tiada deskripsi.</em>}
                 </p>
 
                 {/* Last-Attempt Timestamp */}
                 {stat.attempted && stat.lastAttempt && (
                   <small style={{ color: '#666' }}>
-                    Last attempt:{' '}
-                    {stat.lastAttempt.toLocaleString('en-GB', {
+                    Percubaan terakhir:{' '}
+                    {stat.lastAttempt.toLocaleString('ms-MY', {
                       day: '2-digit',
                       month: '2-digit',
                       year: 'numeric',

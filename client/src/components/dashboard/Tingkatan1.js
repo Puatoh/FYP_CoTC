@@ -16,7 +16,7 @@ const Tingkatan1 = () => {
 
   return (
     <div className={styles.pageContainer}>
-      <button className={styles.backButton} onClick={handleBack}>← Back</button>
+      <button className={styles.backButton} onClick={handleBack}>← Kembali</button>
       <h1 className={styles.title}>Tingkatan 1</h1>
 
       <div className={styles.babOptions}>

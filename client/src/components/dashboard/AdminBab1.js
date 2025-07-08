@@ -8,7 +8,7 @@ import { getIdToken } from 'firebase/auth';
 
 const AdminBab1 = () => {
   const navigate = useNavigate();
-  const fileInputRef = useRef(null); // For safe access to <input type="file" />
+  const fileInputRef = useRef(null);
 
   const [file, setFile] = useState(null);
   const [title, setTitle] = useState('');
@@ -24,7 +24,7 @@ const AdminBab1 = () => {
       const res = await axios.get('/api/bab1');
       setBab1List(res.data);
     } catch (err) {
-      console.error('Error fetching Bab1:', err);
+      console.error('Ralat memuatkan Bab1:', err);
     }
   };
 
@@ -35,7 +35,7 @@ const AdminBab1 = () => {
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile && selectedFile.size > 100 * 1024 * 1024) {
-      alert('File size must be under 100MB.');
+      alert('Saiz fail mesti di bawah 100MB.');
       e.target.value = null;
       return;
     }
@@ -48,17 +48,17 @@ const AdminBab1 = () => {
     const trimmedDescription = description.trim();
 
     if (!editMode && !file) {
-      setError('Please select a PDF file.');
+      setError('Sila pilih fail PDF.');
       return;
     }
 
     if (!trimmedTitle || !trimmedDescription) {
-      setError('Title and Description cannot be empty.');
+      setError('Tajuk dan Penerangan tidak boleh kosong.');
       return;
     }
 
     if (trimmedTitle.length > 50 || trimmedDescription.length > 50) {
-      setError('Title and Description must be under 50 words.');
+      setError('Tajuk dan Penerangan mesti kurang daripada 50 patah perkataan.');
       return;
     }
 
@@ -67,7 +67,7 @@ const AdminBab1 = () => {
       const token = await getIdToken(auth.currentUser);
 
       const formData = new FormData();
-      if (file) formData.append('pdf', file); // Only append if file is selected
+      if (file) formData.append('pdf', file);
       formData.append('title', trimmedTitle);
       formData.append('description', trimmedDescription);
 
@@ -82,12 +82,12 @@ const AdminBab1 = () => {
         },
       });
 
-      alert(editMode ? 'PDF updated successfully!' : 'PDF uploaded successfully!');
+      alert(editMode ? 'Nota berjaya dikemas kini!' : 'Nota berjaya dimuat naik!');
       resetForm();
       fetchBab1List();
     } catch (err) {
-      console.error('Error uploading Bab1:', err);
-      alert('Upload failed. Please try again.');
+      console.error('Ralat memuat naik Bab1:', err);
+      alert('Muat naik gagal. Sila cuba lagi.');
     } finally {
       setIsUploading(false);
     }
@@ -117,11 +117,11 @@ const AdminBab1 = () => {
     setCurrentBab1(bab1);
     setEditMode(true);
     setError('');
-    setFile(null); // optional: reset file on edit mode
+    setFile(null);
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this PDF?')) {
+    if (window.confirm('Adakah anda pasti mahu memadamkan Nota ini?')) {
       try {
         const token = await getIdToken(auth.currentUser);
         await axios.delete(`/api/bab1/${id}`, {
@@ -131,20 +131,20 @@ const AdminBab1 = () => {
           },
         });
 
-        alert('PDF deleted successfully!');
+        alert('Nota berjaya dipadam!');
         fetchBab1List();
       } catch (err) {
-        console.error('Error deleting Bab1:', err);
-        alert('Failed to delete PDF. Please try again.');
+        console.error('Ralat memadam Bab1:', err);
+        alert('Gagal memadam nota. Sila cuba lagi.');
       }
     }
   };
 
   return (
     <div className={styles.container}>
-      <button className={styles.backButton} onClick={handleBack}>Back</button>
+      <button className={styles.backButton} onClick={handleBack}> ← Kembali</button>
 
-      <h1>Admin - Manage Bab 1 Content</h1>
+      <h1>Admin - Urus Kandungan Bab 1</h1>
 
       <div className={styles.uploadBox}>
         {!editMode && (
@@ -160,13 +160,13 @@ const AdminBab1 = () => {
           <div className={styles.form}>
             <input
               type="text"
-              placeholder="Title (required, max 50 words)"
+              placeholder="Tajuk (wajib, maks 50 patah perkataan)"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               maxLength="50"
             />
             <textarea
-              placeholder="Description (required, max 50 words)"
+              placeholder="Penerangan (wajib, maks 50 patah perkataan)"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               maxLength="50"
@@ -176,15 +176,15 @@ const AdminBab1 = () => {
 
             <div className={styles.buttonGroup}>
               <button onClick={handleUpload} disabled={isUploading}>
-                {editMode ? 'Update' : 'Save'}
+                {editMode ? 'Kemas Kini' : 'Simpan'}
               </button>
-              <button onClick={handleCancel} disabled={isUploading}>Cancel</button>
+              <button onClick={handleCancel} disabled={isUploading}>Batal</button>
             </div>
           </div>
         )}
       </div>
 
-      <h2>Existing Bab 1 Contents</h2>
+      <h2>Senarai Kandungan Bab 1</h2>
       <ul className={styles.bab1List}>
         {bab1List.map(item => (
           <li key={item._id}>
@@ -192,8 +192,8 @@ const AdminBab1 = () => {
               {item.title} - {item.description}
             </a>
             <div className={styles.actionButtons}>
-              <button onClick={() => handleEdit(item)}>Edit</button>
-              <button onClick={() => handleDelete(item._id)}>Delete</button>
+              <button onClick={() => handleEdit(item)}>Kemas Kini</button>
+              <button onClick={() => handleDelete(item._id)}>Padam</button>
             </div>
           </li>
         ))}

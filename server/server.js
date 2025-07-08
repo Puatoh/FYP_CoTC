@@ -52,6 +52,7 @@ app.use('/api/attempts', attemptRoutes);
 app.use('/api/attempts', attemptAdminRoutes);
 
 app.use('/api/challenges', challengeRoutes);
+app.use('/api', challengeRoutes);
 
 // Connect to MongoDB
 mongoose

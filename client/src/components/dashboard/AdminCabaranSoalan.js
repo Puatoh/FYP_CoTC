@@ -13,7 +13,7 @@ const AdminCabaranSoalan = () => {
     const [rules, setRules] = useState('');
     const [duration, setDuration] = useState(10);
     const [questions, setQuestions] = useState([]);
-    const [status, setStatus] = useState('Draf');
+    const [status, setStatus] = useState('Aktif');
     const [loading, setLoading] = useState(false);
     const [editingId, setEditingId] = useState(searchParams.get('id'));
     const [error, setError] = useState('');
@@ -182,7 +182,6 @@ const AdminCabaranSoalan = () => {
                     onChange={e => setStatus(e.target.value)}
                     className={styles.formInput}
                 >
-                    <option value="Draf">Draf</option>
                     <option value="Aktif">Aktif</option>
                     <option value="Ditutup">Ditutup</option>
                 </select>
@@ -221,13 +220,29 @@ const AdminCabaranSoalan = () => {
                             {q.choices.length < 4 && (
                                 <button className={styles.smallButton} onClick={() => handleAddChoice(i)}>+ Pilihan</button>
                             )}
-                            <input
-                                type="number"
-                                value={q.points}
-                                onChange={e => handleChange(i, 'points', parseInt(e.target.value))}
-                                placeholder="Markah"
-                                className={styles.profileInput}
-                            />
+                            <div className={styles.formGroup} style={{ marginTop: '0.5rem' }}>
+                                <label className={styles.formLabel} style={{ fontWeight: 'bold', fontSize: '0.95rem' }}>
+                                    <input
+                                        type="checkbox"
+                                        checked={q.allowHelp !== false} // default true
+                                        onChange={() => handleChange(i, 'allowHelp', q.allowHelp === false)}
+                                        style={{ marginRight: '8px' }}
+                                    />
+                                    Benarkan fungsi Bantuan (👼)
+                                </label>
+                            </div>
+
+                            <div className={styles.formGroup} style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '0.5rem' }}>
+                                <label className={styles.formLabel}>Markah:</label>
+                                <input
+                                    type="number"
+                                    value={q.points}
+                                    onChange={e => handleChange(i, 'points', parseInt(e.target.value))}
+                                    placeholder="1"
+                                    className={styles.profileInput}
+                                    style={{ width: '100px' }}
+                                />
+                            </div>
                             <button className={styles.deleteButton} onClick={() => handleDeleteQuestion(i)}>Padam Soalan</button>
                         </div>
                     )}
@@ -235,7 +250,7 @@ const AdminCabaranSoalan = () => {
             ))}
 
             <button onClick={handleAddQuestion} className={styles.profileSaveButton}>+ Tambah Soalan</button>
-            <button onClick={handleSave} className={styles.profileSaveButton} disabled={loading}>
+            <button onClick={handleSave} className={styles.profileSaveButton} disabled={loading} style={{ backgroundColor: '#4CAF50', color: 'white' }}>
                 {loading ? 'Menyimpan...' : 'Simpan Cabaran'}
             </button>
         </div>

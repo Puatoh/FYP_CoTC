@@ -91,7 +91,7 @@ const Forum = () => {
       {/* Main content */}
       <div className={styles.mainContent}>
         <h1>Forum </h1>
-        <p>This is the Forum page for Discussion.</p>
+        <p>Ini ialah halaman Forum untuk Perbincangan.</p>
 
         {/* Clicking this cell → /forum-tingkatan-1 */}
         <div

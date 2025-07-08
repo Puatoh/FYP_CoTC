@@ -119,7 +119,7 @@ export default function Login() {
         setForm({ email: '', password: '' });
       }
     } catch (err) {
-      setError('Invalid credentials');
+      setError('Kelayakan tidak sah');
       // If login fails, do not overwrite localStorage if rememberMe was checked
     }
   };
@@ -150,7 +150,7 @@ export default function Login() {
         onDoubleClick={handleImageDoubleClick}
       />
 
-      <h2>{isAdminMode ? 'Admin Login' : 'Student Login'}</h2>
+      <h2>{isAdminMode ? 'Admin Log Masuk' : 'Pelajar Log Masuk'}</h2>
       {error && <div className={styles.error}>{error}</div>}
 
       <form onSubmit={handleSubmit} className={styles.form}>
@@ -166,7 +166,7 @@ export default function Login() {
         </div>
 
         <div className={styles.field}>
-          <label>Password</label>
+          <label>Kata Laluan</label>
           <div className={styles.pwdWrapper}>
             <input
               type={showPwd ? 'text' : 'password'}
@@ -181,7 +181,7 @@ export default function Login() {
               onClick={() => setShowPwd((s) => !s)}
               className={styles.toggle}
             >
-              {showPwd ? 'Hide' : 'Show'}
+              {showPwd ? 'Tunjuk' : 'Sembuyi'}
             </button>
           </div>
         </div>
@@ -193,34 +193,34 @@ export default function Login() {
               checked={rememberMe}
               onChange={handleRememberChange}
             />{' '}
-            Remember Me
+            Ingat Saya
           </label>
           <button
             type="button"
             className={styles.forgot}
             onClick={handleForgotPassword}
           >
-            Forgot Password?
+            Terlupa Kata Laluan
           </button>
         </div>
 
         <button type="submit" className={styles.button}>
-          Log In
+          Log Masuk
         </button>
 
         <div className={styles.registerPrompt}>
           {isAdminMode ? (
             <>
-              <span>New Admin? </span>
+              <span>Admin baru? </span>
               <Link to="/register/admin" className={styles.registerLink}>
-                Register here
+                Daftar sini
               </Link>
             </>
           ) : (
             <>
-              <span>New user? </span>
+              <span>Pengguna baru? </span>
               <Link to="/register" className={styles.registerLink}>
-                Register here
+                Daftar sini
               </Link>
             </>
           )}

@@ -10,8 +10,12 @@ const ChallengeLeaderboard = () => {
   const [attempts, setAttempts] = useState([]);
   const [challengeTitle, setChallengeTitle] = useState('');
   const [error, setError] = useState('');
+  const [userRole, setUserRole] = useState('');
 
   useEffect(() => {
+    const role = localStorage.getItem('userRole') || '';
+    setUserRole(role);
+
     const fetchLeaderboard = async () => {
       try {
         const currentUser = auth.currentUser;
@@ -44,6 +48,7 @@ const ChallengeLeaderboard = () => {
     fetchLeaderboard();
   }, [id]);
 
+
   const formatDate = (dateStr) => {
     const d = new Date(dateStr);
     return d.toLocaleString('ms-MY', {
@@ -57,7 +62,14 @@ const ChallengeLeaderboard = () => {
 
   return (
     <div className={styles.dashboardContainer}>
-      <button className={styles.backButton} onClick={() => navigate(-1)}>← Kembali</button>
+      <button
+        className={styles.backButton}
+        onClick={() =>
+          userRole === 'admin' ? navigate('/cabaran/admin') : navigate('/cabaran')
+        }
+      >
+        ← Kembali
+      </button>
       <h2>Leaderboard: {challengeTitle}</h2>
 
       {error && <p className={styles.profileError}>{error}</p>}
@@ -73,6 +85,7 @@ const ChallengeLeaderboard = () => {
               <th>Markah</th>
               <th>Jawapan Betul</th>
               <th>Masa Hantar</th>
+              <th>Masa Diambil</th>
             </tr>
           </thead>
           <tbody>
@@ -83,6 +96,7 @@ const ChallengeLeaderboard = () => {
                 <td>{a.totalPoints}</td>
                 <td>{a.correctCount}</td>
                 <td>{formatDate(a.submittedAt)}</td>
+                <td>{a.timeTaken}</td>
               </tr>
             ))}
           </tbody>

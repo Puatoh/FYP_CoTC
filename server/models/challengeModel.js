@@ -5,7 +5,8 @@ const questionSchema = new mongoose.Schema({
   text: String,
   choices: [String],
   correct: [Number],
-  points: { type: Number, default: 1 }
+  points: { type: Number, default: 1 },
+  allowHelp: { type: Boolean, default: true },
 });
 
 // ───── Main Challenge ─────
@@ -14,7 +15,7 @@ const challengeSchema = new mongoose.Schema({
   description: String,
   rules: String,
   duration: Number,
-  status: { type: String, enum: ['Draf', 'Aktif', 'Ditutup'], default: 'Draf' },
+  status: { type: String, enum: ['Aktif', 'Ditutup'], default: 'Aktif' },
   questions: [questionSchema],
   createdAt: { type: Date, default: Date.now }
 });
@@ -28,6 +29,8 @@ const challengeAttemptSchema = new mongoose.Schema({
   correctCount: Number,
   totalPoints: Number,
   submittedAt: Date,
+   startedAt: Date,
+  createdAt: { type: Date, default: Date.now }
 });
 
 // ───── Exports ─────
