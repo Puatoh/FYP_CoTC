@@ -93,7 +93,7 @@ export default function Login() {
       }
 
       // 3) Sync "isVerified" in MongoDB
-      await axios.post('/api/auth/login', {
+      await axios.post('https://cotc-backend.onrender.com/api/auth/login', {
         email: user.email,
         firebaseUid: user.uid,
         markVerified: true,
