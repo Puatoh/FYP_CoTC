@@ -13,5 +13,8 @@
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^9.1.2"
+  },
+  "dependencies": {
+    "mongoose": "^8.16.2"
   }
 }
