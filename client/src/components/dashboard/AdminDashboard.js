@@ -427,11 +427,11 @@ const AdminDashboard = () => {
 
       {/* Main content */}
       <div className={styles.mainContent}>
-        <h1>Selamat datang ke Papan Pemuka Admin</h1>
-        <p>Anda telah berjaya log masuk sebagai admin.</p>
+        <h1>Welcome to the Admin Dashboard</h1>
+        <p>You have successfully logged in as an admin.</p>
       </div>
 
-      <h2>Senarai Pelajar Berdaftar</h2>
+      <h2>Registered Student List</h2>
       {loadingStudents ? (
         <p>Loading students…</p>
       ) : studentError ? (
@@ -440,9 +440,9 @@ const AdminDashboard = () => {
         <table className={styles.studentTable}>
           <thead>
             <tr>
-              <th>Nama</th>
+              <th>Name</th>
               <th>Email</th>
-              <th>Selesai Latihan</th>
+              <th>Exercises Completed</th>
             </tr>
           </thead>
           <tbody>
@@ -457,7 +457,7 @@ const AdminDashboard = () => {
         </table>
       )}
 
-      <h2>Aktiviti Forum Terkini</h2>
+      <h2>Latest Forum Activity</h2>
       {loadingForum ? (
         <p>Loading forum activity…</p>
       ) : forumError ? (
@@ -477,7 +477,7 @@ const AdminDashboard = () => {
               </div>
               {item.topicId && (
                 <div className={styles.topicLink}>
-                  Topik: {item.topicTitle}
+                  Topic: {item.topicTitle}
                 </div>
               )}
             </li>
@@ -490,7 +490,7 @@ const AdminDashboard = () => {
         <>
           <div className={styles.popupOverlay} onClick={handleCloseProfile} />
           <div className={styles.popupBox}>
-            <h2>Profil Saya</h2>
+            <h2>My Profile</h2>
             <button onClick={handleCloseProfile} className={styles.closeButton}>
               ✖
             </button>
@@ -550,7 +550,7 @@ const AdminDashboard = () => {
                 {/* Editable username + static email */}
                 <div className={styles.profileInfoForm}>
                   <label>
-                    <strong>Nama:</strong>
+                    <strong>Name:</strong>
                   </label>
                   <input
                     type="text"
@@ -579,13 +579,13 @@ const AdminDashboard = () => {
                       onClick={handleSaveProfile}
                       className={styles.profileSaveButton}
                     >
-                      Simpan
+                      Save
                     </button>
                     <button
                       onClick={handleCloseProfile}
                       className={styles.profileCancelButton}
                     >
-                      Batal
+                      Cancel
                     </button>
                   </div>
                 </div>

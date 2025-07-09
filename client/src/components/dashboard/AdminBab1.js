@@ -142,9 +142,9 @@ const AdminBab1 = () => {
 
   return (
     <div className={styles.container}>
-      <button className={styles.backButton} onClick={handleBack}> ← Kembali</button>
+      <button className={styles.backButton} onClick={handleBack}> ← Back</button>
 
-      <h1>Admin - Urus Kandungan Bab 1</h1>
+      <h1>Admin - Manage Chapter 1 Content</h1>
 
       <div className={styles.uploadBox}>
         {!editMode && (
@@ -160,13 +160,13 @@ const AdminBab1 = () => {
           <div className={styles.form}>
             <input
               type="text"
-              placeholder="Tajuk (wajib, maks 50 patah perkataan)"
+              placeholder="Title (required, max 50 words)"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               maxLength="50"
             />
             <textarea
-              placeholder="Penerangan (wajib, maks 50 patah perkataan)"
+              placeholder="Description (required, max 50 words)"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               maxLength="50"
@@ -176,15 +176,15 @@ const AdminBab1 = () => {
 
             <div className={styles.buttonGroup}>
               <button onClick={handleUpload} disabled={isUploading}>
-                {editMode ? 'Kemas Kini' : 'Simpan'}
+                {editMode ? 'Update' : 'Save'}
               </button>
-              <button onClick={handleCancel} disabled={isUploading}>Batal</button>
+              <button onClick={handleCancel} disabled={isUploading}>Cancel</button>
             </div>
           </div>
         )}
       </div>
 
-      <h2>Senarai Kandungan Bab 1</h2>
+      <h2>Chapter 1 Content List</h2>
       <ul className={styles.bab1List}>
         {bab1List.map(item => (
           <li key={item._id}>
@@ -192,8 +192,8 @@ const AdminBab1 = () => {
               {item.title} - {item.description}
             </a>
             <div className={styles.actionButtons}>
-              <button onClick={() => handleEdit(item)}>Kemas Kini</button>
-              <button onClick={() => handleDelete(item._id)}>Padam</button>
+              <button onClick={() => handleEdit(item)}>Update</button>
+              <button onClick={() => handleDelete(item._id)}>Delete</button>
             </div>
           </li>
         ))}

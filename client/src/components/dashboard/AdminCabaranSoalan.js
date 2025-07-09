@@ -131,46 +131,46 @@ const AdminCabaranSoalan = () => {
 
     return (
         <div className={`${styles.dashboardContainer} ${styles.challengeForm}`}>
-            <button className={styles.backButton} onClick={() => navigate('/cabaran/admin')}>← Kembali</button>
-            <h2>{editingId ? 'Edit Cabaran' : 'Cipta Cabaran Baru'}</h2>
+            <button className={styles.backButton} onClick={() => navigate('/cabaran/admin')}>← Back</button>
+            <h2>{editingId ? 'Edit Challenge' : 'Create New Challenge'}</h2>
 
             <div className={styles.formGroup}>
-                <label className={styles.formLabel}>Tajuk Cabaran</label>
+                <label className={styles.formLabel}>Challenge Title</label>
                 <textarea
                     value={title}
                     onChange={e => setTitle(e.target.value)}
-                    placeholder="cth: Cabaran Sains Mingguan"
+                    placeholder="e.g.: Weekly Science Challenge"
                     className={styles.formInput}
                 />
             </div>
 
             <div className={styles.formGroup}>
-                <label className={styles.formLabel}>Deskripsi</label>
+                <label className={styles.formLabel}>Description</label>
                 <textarea
                     value={description}
                     onChange={e => setDescription(e.target.value)}
-                    placeholder="cth: Pelajar perlu menjawab 10 soalan berkaitan topik semasa."
+                    placeholder="e.g.: Students must answer 10 questions on current topics."
                     className={styles.formInput}
                 />
             </div>
 
             <div className={styles.formGroup}>
-                <label className={styles.formLabel}>Peraturan</label>
+                <label className={styles.formLabel}>Rules</label>
                 <textarea
                     value={rules}
                     onChange={e => setRules(e.target.value)}
-                    placeholder="cth: Jawab dalam masa 10 minit. Tiada markah dipotong untuk jawapan salah."
+                    placeholder="e.g.: Answer within 10 minutes. No points deducted for wrong answers."
                     className={styles.formInput}
                 />
             </div>
 
             <div className={styles.formGroup}>
-                <label className={styles.formLabel}>Durasi (minit)</label>
+                <label className={styles.formLabel}>Duration (minutes)</label>
                 <input
                     type="number"
                     value={duration}
                     onChange={e => setDuration(parseInt(e.target.value))}
-                    placeholder="cth: 10"
+                    placeholder="e.g.: 10"
                     className={styles.formInput}
                 />
             </div>
@@ -182,16 +182,16 @@ const AdminCabaranSoalan = () => {
                     onChange={e => setStatus(e.target.value)}
                     className={styles.formInput}
                 >
-                    <option value="Aktif">Aktif</option>
-                    <option value="Ditutup">Ditutup</option>
+                    <option value="Aktif">Active</option>
+                    <option value="Ditutup">Closed</option>
                 </select>
             </div>
 
-            <h3>Senarai Soalan</h3>
+            <h3>Question List</h3>
             {questions.map((q, i) => (
                 <div key={i} className={styles.questionCard}>
                     <div className={styles.questionHeader} onClick={() => handleToggleCollapse(i)}>
-                        <strong>Soalan {i + 1}</strong>
+                        <strong>Question {i + 1}</strong>
                         <span>{q.open ? '▲' : '▼'}</span>
                     </div>
                     {q.open && (
@@ -199,7 +199,7 @@ const AdminCabaranSoalan = () => {
                             <textarea
                                 value={q.text}
                                 onChange={e => handleChange(i, 'text', e.target.value)}
-                                placeholder="Teks Soalan"
+                                placeholder="Question Text"
                                 className={styles.profileInput}
                             />
                             {q.choices.map((choice, j) => (
@@ -212,13 +212,13 @@ const AdminCabaranSoalan = () => {
                                     <input
                                         value={choice}
                                         onChange={e => handleChoiceChange(i, j, e.target.value)}
-                                        placeholder={`Pilihan ${j + 1}`}
+                                        placeholder={`Choice ${j + 1}`}
                                         className={styles.profileInput}
                                     />
                                 </div>
                             ))}
                             {q.choices.length < 4 && (
-                                <button className={styles.smallButton} onClick={() => handleAddChoice(i)}>+ Pilihan</button>
+                                <button className={styles.smallButton} onClick={() => handleAddChoice(i)}>+ Choice</button>
                             )}
                             <div className={styles.formGroup} style={{ marginTop: '0.5rem' }}>
                                 <label className={styles.formLabel} style={{ fontWeight: 'bold', fontSize: '0.95rem' }}>
@@ -228,12 +228,12 @@ const AdminCabaranSoalan = () => {
                                         onChange={() => handleChange(i, 'allowHelp', q.allowHelp === false)}
                                         style={{ marginRight: '8px' }}
                                     />
-                                    Benarkan fungsi Bantuan (👼)
+                                    Allow Help Function (👼)
                                 </label>
                             </div>
 
                             <div className={styles.formGroup} style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '0.5rem' }}>
-                                <label className={styles.formLabel}>Markah:</label>
+                                <label className={styles.formLabel}>Points:</label>
                                 <input
                                     type="number"
                                     value={q.points}
@@ -243,15 +243,15 @@ const AdminCabaranSoalan = () => {
                                     style={{ width: '100px' }}
                                 />
                             </div>
-                            <button className={styles.deleteButton} onClick={() => handleDeleteQuestion(i)}>Padam Soalan</button>
+                            <button className={styles.deleteButton} onClick={() => handleDeleteQuestion(i)}>Delete Question</button>
                         </div>
                     )}
                 </div>
             ))}
 
-            <button onClick={handleAddQuestion} className={styles.profileSaveButton}>+ Tambah Soalan</button>
+            <button onClick={handleAddQuestion} className={styles.profileSaveButton}>+ Add Question</button>
             <button onClick={handleSave} className={styles.profileSaveButton} disabled={loading} style={{ backgroundColor: '#4CAF50', color: 'white' }}>
-                {loading ? 'Menyimpan...' : 'Simpan Cabaran'}
+                {loading ? 'Saving...' : 'Save Challenge'}
             </button>
         </div>
     );

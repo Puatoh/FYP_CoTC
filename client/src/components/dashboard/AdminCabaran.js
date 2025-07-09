@@ -148,13 +148,13 @@ const AdminCabaran = () => {
       </div>
 
       <div className={styles.mainContent}>
-        <h1>Cabaran Berasaskan Permainan</h1>
-        <p>Urus semua kuiz atau cabaran berasaskan permainan untuk pelajar.</p>
+        <h1>Challenges</h1>
+        <p>Manage all quizzes or game-based challenges for students.</p>
 
         <div className={styles.challengeTopControls}>
           <input
             type="text"
-            placeholder="Cari cabaran berdasarkan tajuk..."
+            placeholder="Search challenges by title..."
             value={searchTerm}
             onChange={handleSearch}
             className={styles.challengeSearchInput}
@@ -177,15 +177,15 @@ const AdminCabaran = () => {
               cursor: 'pointer',
             }}
           >
-            ➕ Cabaran Baru
+            ➕ New Challenge
           </button>
         </div>
 
-        {loading && <p>Sedang memuatkan cabaran...</p>}
+        {loading && <p>Loading challenges...</p>}
         {error && <p style={{ color: 'red' }}>{error}</p>}
         {!loading && !error && challenges.length === 0 && (
           <div style={{ textAlign: 'center', marginTop: '2rem' }}>
-            <p>Tiada cabaran dijumpai.</p>
+            <p>No challenges found.</p>
           </div>
         )}
 
@@ -193,11 +193,11 @@ const AdminCabaran = () => {
           <table className={styles.challengeTable}>
             <thead>
               <tr>
-                <th>Tajuk</th>
-                <th>Soalan</th>
+                <th>Title</th>
+                <th>Questions</th>
                 <th>Status</th>
-                <th>Dicipta Pada</th>
-                <th>Tindakan</th>
+                <th>Created On</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
