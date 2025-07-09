@@ -62,7 +62,7 @@ export default function AdminRegister() {
       await sendEmailVerification(user);
 
       // 2. Save to MongoDB with role='admin'
-      await axios.post('/api/auth/register', {
+      await axios.post('https://cotc-backend.onrender.com/api/auth/register', {
         username: form.username,
         email: form.email,
         firebaseUid: user.uid,

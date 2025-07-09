@@ -39,13 +39,13 @@ const AdminLatihanTingkatan1 = () => {
       const token = await auth.currentUser.getIdToken();
 
       // 1) fetch module info
-      const modRes = await axios.get(`/api/modules/tingkatan1/${moduleId}`, {
+      const modRes = await axios.get(`https://cotc-backend.onrender.com/api/modules/tingkatan1/${moduleId}`, {
         headers: { Authorization: `Bearer ${token}`, email: auth.currentUser.email }
       });
       setModuleInfo(modRes.data);
 
       // 2) fetch exercises under that module
-      const exRes = await axios.get(`/api/exercises/tingkatan1/${moduleId}`, {
+      const exRes = await axios.get(`https://cotc-backend.onrender.com/api/exercises/tingkatan1/${moduleId}`, {
         headers: { Authorization: `Bearer ${token}`, email: auth.currentUser.email }
       });
       setExercises(exRes.data);
@@ -134,7 +134,7 @@ const AdminLatihanTingkatan1 = () => {
       if (isEditingId) {
         // Update existing exercise
         await axios.put(
-          `/api/exercises/tingkatan1/${moduleId}/${isEditingId}`,
+          `https://cotc-backend.onrender.com/api/exercises/tingkatan1/${moduleId}/${isEditingId}`,
           payload,
           { headers: {
               'Content-Type': 'application/json',
@@ -146,7 +146,7 @@ const AdminLatihanTingkatan1 = () => {
       } else {
         // Create new exercise under this module
         await axios.post(
-          `/api/exercises/tingkatan1/${moduleId}`,
+          `https://cotc-backend.onrender.com/api/exercises/tingkatan1/${moduleId}`,
           payload,
           { headers: {
               'Content-Type': 'application/json',
@@ -186,7 +186,7 @@ const AdminLatihanTingkatan1 = () => {
     try {
       const token = await auth.currentUser.getIdToken();
       await axios.delete(
-        `/api/exercises/tingkatan1/${moduleId}/${exId}`,
+        `https://cotc-backend.onrender.com/api/exercises/tingkatan1/${moduleId}/${exId}`,
         { headers: { Authorization: `Bearer ${token}`, email: auth.currentUser.email } }
       );
       fetchData();

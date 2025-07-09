@@ -23,13 +23,13 @@ const ChallengeLeaderboard = () => {
         const token = await currentUser.getIdToken();
 
         const [challengeRes, leaderboardRes] = await Promise.all([
-          axios.get(`/api/challenges/${id}`, {
+          axios.get(`https://cotc-backend.onrender.com/api/challenges/${id}`, {
             headers: {
               Authorization: `Bearer ${token}`,
               email: currentUser.email,
             },
           }),
-          axios.get(`/api/challenges/${id}/leaderboard`, {
+          axios.get(`https://cotc-backend.onrender.com/api/challenges/${id}/leaderboard`, {
             headers: {
               Authorization: `Bearer ${token}`,
               email: currentUser.email,
