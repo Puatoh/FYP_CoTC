@@ -25,7 +25,7 @@ const AdminCabaran = () => {
         if (!currentUser) throw new Error('Tidak diautentikasi');
 
         const token = await currentUser.getIdToken();
-        const res = await axios.get('/api/challenges', {
+        const res = await axios.get('https://cotc-backend.onrender.com/api/challenges', {
           headers: {
             Authorization: `Bearer ${token}`,
             email: currentUser.email,
@@ -87,7 +87,7 @@ const AdminCabaran = () => {
 
   try {
     const token = await auth.currentUser.getIdToken();
-    await axios.delete(`/api/challenges/${challengeId}`, {
+    await axios.delete(`https://cotc-backend.onrender.com/api/challenges/${challengeId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         email: auth.currentUser.email,

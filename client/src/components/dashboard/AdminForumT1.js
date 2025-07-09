@@ -37,7 +37,7 @@ const AdminForumT1 = () => {
     try {
       setLoadingTopics(true);
       const token = await auth.currentUser.getIdToken();
-      const res = await axios.get('/api/forum-tingkatan-1', {
+      const res = await axios.get('https://cotc-backend.onrender.com/api/forum-tingkatan-1', {
         headers: {
           Authorization: `Bearer ${token}`,
           email: currentEmail
@@ -71,7 +71,7 @@ const AdminForumT1 = () => {
     try {
       const token = await auth.currentUser.getIdToken();
       await axios.post(
-        '/api/forum-tingkatan-1',
+        'https://cotc-backend.onrender.com/api/forum-tingkatan-1',
         { title: title.trim(), description: description.trim() },
         {
           headers: {
@@ -98,7 +98,7 @@ const AdminForumT1 = () => {
     try {
       const token = await auth.currentUser.getIdToken();
       const res = await axios.get(
-        `/api/forum-tingkatan-1/${topicId}/comments`,
+        `https://cotc-backend.onrender.com/api/forum-tingkatan-1/${topicId}/comments`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -131,7 +131,7 @@ const AdminForumT1 = () => {
     try {
       const token = await auth.currentUser.getIdToken();
       await axios.post(
-        `/api/forum-tingkatan-1/${topicId}/comments`,
+        `https://cotc-backend.onrender.com/api/forum-tingkatan-1/${topicId}/comments`,
         { content },
         {
           headers: {
@@ -163,7 +163,7 @@ const AdminForumT1 = () => {
     try {
       const token = await auth.currentUser.getIdToken();
       await axios.put(
-        `/api/forum-tingkatan-1/${topicId}/comments/${commentId}`,
+        `https://cotc-backend.onrender.com/api/forum-tingkatan-1/${topicId}/comments/${commentId}`,
         { content: newContent.trim() },
         {
           headers: {
@@ -188,7 +188,7 @@ const AdminForumT1 = () => {
     try {
       const token = await auth.currentUser.getIdToken();
       await axios.delete(
-        `/api/forum-tingkatan-1/${topicId}/comments/${commentId}`,
+        `https://cotc-backend.onrender.com/api/forum-tingkatan-1/${topicId}/comments/${commentId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -230,7 +230,7 @@ const AdminForumT1 = () => {
     try {
       const token = await auth.currentUser.getIdToken();
       await axios.put(
-        `/api/forum-tingkatan-1/${topicId}`,
+        `https://cotc-backend.onrender.com/api/forum-tingkatan-1/${topicId}`,
         { title: title.trim(), description: description.trim() },
         {
           headers: {
@@ -257,7 +257,7 @@ const AdminForumT1 = () => {
     if (!window.confirm('Delete this topic?')) return;
     try {
       const token = await auth.currentUser.getIdToken();
-      await axios.delete(`/api/forum-tingkatan-1/${topicId}`, {
+      await axios.delete(`https://cotc-backend.onrender.com/api/forum-tingkatan-1/${topicId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           email: currentEmail
@@ -282,7 +282,7 @@ const AdminForumT1 = () => {
     try {
       const token = await auth.currentUser.getIdToken();
       const res = await axios.get(
-        `/api/forum-tingkatan-1/${topicId}/comments/${commentId}/replies`,
+        `https://cotc-backend.onrender.com/api/forum-tingkatan-1/${topicId}/comments/${commentId}/replies`,
         { headers: { Authorization: `Bearer ${token}`, email: currentEmail } }
       );
       setRepliesByComment(prev => ({
@@ -309,7 +309,7 @@ const AdminForumT1 = () => {
     try {
       const token = await auth.currentUser.getIdToken();
       await axios.post(
-        `/api/forum-tingkatan-1/${topicId}/comments/${commentId}/replies`,
+        `https://cotc-backend.onrender.com/api/forum-tingkatan-1/${topicId}/comments/${commentId}/replies`,
         { content },
         { headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}`, email: currentEmail } }
       );
@@ -339,7 +339,7 @@ const AdminForumT1 = () => {
     try {
       const token = await auth.currentUser.getIdToken();
       await axios.put(
-        `/api/forum-tingkatan-1/${topicId}/comments/${commentId}/replies/${replyId}`,
+        `https://cotc-backend.onrender.com/api/forum-tingkatan-1/${topicId}/comments/${commentId}/replies/${replyId}`,
         { content: newContent.trim() },
         { headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}`, email: currentEmail } }
       );
@@ -358,7 +358,7 @@ const AdminForumT1 = () => {
     try {
       const token = await auth.currentUser.getIdToken();
       await axios.delete(
-        `/api/forum-tingkatan-1/${topicId}/comments/${commentId}/replies/${replyId}`,
+        `https://cotc-backend.onrender.com/api/forum-tingkatan-1/${topicId}/comments/${commentId}/replies/${replyId}`,
         { headers: { Authorization: `Bearer ${token}`, email: currentEmail } }
       );
       fetchReplies(topicId, commentId);

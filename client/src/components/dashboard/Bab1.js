@@ -13,7 +13,7 @@ const Bab1 = () => {
   useEffect(() => {
     const fetchBab1 = async () => {
       try {
-        const res = await axios.get('/api/bab1');
+        const res = await axios.get('https://cotc-backend.onrender.com/api/bab1');
         setBab1List(res.data);
       } catch (err) {
         console.error('Error fetching Bab1 contents:', err);
