@@ -70,7 +70,7 @@ const StudentDashboard = () => {
   const fetchLatestModules = async () => {
     try {
       const token = await auth.currentUser.getIdToken();
-      const res = await axios.get('https://cotc-backend.onrender.com/api/modules/tingkatan1', {
+      const res = await axios.get('/api/modules/tingkatan1', {
         headers: {
           Authorization: `Bearer ${token}`,
           email: auth.currentUser.email
@@ -94,7 +94,7 @@ const StudentDashboard = () => {
         if (!currentUser) return;
 
         const token = await currentUser.getIdToken();
-        const res = await axios.get('https://cotc-backend.onrender.com/api/forum-tingkatan-1/activity', {
+        const res = await axios.get('/api/forum-tingkatan-1/activity', {
           headers: {
             Authorization: `Bearer ${token}`,
             email: currentUser.email,
@@ -161,7 +161,7 @@ const StudentDashboard = () => {
       }
 
       const token = await currentUser.getIdToken();
-      const res = await axios.get('https://cotc-backend.onrender.com/api/auth/profile', {
+      const res = await axios.get('/api/auth/profile', {
         headers: {
           Authorization: `Bearer ${token}`,
           email: currentUser.email
@@ -207,7 +207,7 @@ const StudentDashboard = () => {
 
     try {
       const token = await auth.currentUser.getIdToken();
-      const res = await axios.get('https://cotc-backend.onrender.com/api/challenge-attempts/student/achievements', {
+      const res = await axios.get('/api/challenge-attempts/student/achievements', {
         headers: {
           Authorization: `Bearer ${token}`,
           email: auth.currentUser.email
@@ -314,7 +314,7 @@ const StudentDashboard = () => {
     try {
       const currentUser = auth.currentUser;
       const token = await currentUser.getIdToken();
-      await axios.delete('https://cotc-backend.onrender.com/api/auth/profile/photo', {
+      await axios.delete('/api/auth/profile/photo', {
         headers: {
           Authorization: `Bearer ${token}`,
           email: currentUser.email
@@ -361,7 +361,7 @@ const StudentDashboard = () => {
         const formData = new FormData();
         formData.append('avatar', avatarFile);
         const photoRes = await axios.post(
-          'https://cotc-backend.onrender.com/api/auth/profile/photo',
+          '/api/auth/profile/photo',
           formData,
           {
             headers: {
@@ -381,7 +381,7 @@ const StudentDashboard = () => {
       // 12c) If username changed, call PUT /api/auth/profile:
       if (trimmed !== profileData.username) {
         await axios.put(
-          'https://cotc-backend.onrender.com/api/auth/profile',
+          '/api/auth/profile',
           { username: trimmed },
           {
             headers: {

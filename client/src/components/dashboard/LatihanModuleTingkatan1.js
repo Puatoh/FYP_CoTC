@@ -24,7 +24,7 @@ const LatihanModuleTingkatan1 = () => {
         setLoading(true);
         const token = await auth.currentUser.getIdToken();
         const [{ data: mods }] = await Promise.all([
-          axios.get('https://cotc-backend.onrender.com/api/modules/tingkatan1', {
+          axios.get('/api/modules/tingkatan1', {
             headers: { Authorization: `Bearer ${token}`, email: auth.currentUser.email }
           })
         ]);
@@ -34,7 +34,7 @@ const LatihanModuleTingkatan1 = () => {
           mods.map(async (m) => {
             try {
               const res = await axios.get(
-                `https://cotc-backend.onrender.com/api/attempts/tingkatan1/${m._id}`,
+                `/api/attempts/tingkatan1/${m._id}`,
                 { headers: { Authorization: `Bearer ${token}`, email: auth.currentUser.email } }
               );
               return [m._id, {

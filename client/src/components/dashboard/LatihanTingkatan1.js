@@ -29,14 +29,14 @@ const LatihanTingkatan1 = () => {
 
         // 1) Module details
         const modRes = await axios.get(
-          `https://cotc-backend.onrender.com/api/modules/tingkatan1/${moduleId}`,
+          `/api/modules/tingkatan1/${moduleId}`,
           { headers: { Authorization: `Bearer ${token}`, email: auth.currentUser.email } }
         );
         setModuleTitle(modRes.data.title || moduleTitle);
 
         // 2) Exercises
         const exRes = await axios.get(
-          `https://cotc-backend.onrender.com/api/exercises/tingkatan1/${moduleId}`,
+          `/api/exercises/tingkatan1/${moduleId}`,
           { headers: { Authorization: `Bearer ${token}`, email: auth.currentUser.email } }
         );
         setExercises(exRes.data);
@@ -44,7 +44,7 @@ const LatihanTingkatan1 = () => {
         // 3) Existing attempt?
         try {
           const atRes = await axios.get(
-            `https://cotc-backend.onrender.com/api/attempts/tingkatan1/${moduleId}`,
+            `/api/attempts/tingkatan1/${moduleId}`,
             { headers: { Authorization: `Bearer ${token}`, email: auth.currentUser.email } }
           );
           const att = atRes.data;
@@ -155,7 +155,7 @@ const LatihanTingkatan1 = () => {
     try {
       const token = await auth.currentUser.getIdToken();
       await axios.post(
-        `https://cotc-backend.onrender.com/api/attempts/tingkatan1/${moduleId}`,
+        `/api/attempts/tingkatan1/${moduleId}`,
         { answers },
         { headers: { Authorization: `Bearer ${token}`, email: auth.currentUser.email } }
       );

@@ -21,7 +21,7 @@ const AdminBab1 = () => {
 
   const fetchBab1List = async () => {
     try {
-      const res = await axios.get('https://cotc-backend.onrender.com/api/bab1');
+      const res = await axios.get('/api/bab1');
       setBab1List(res.data);
     } catch (err) {
       console.error('Ralat memuatkan Bab1:', err);
@@ -124,7 +124,7 @@ const AdminBab1 = () => {
     if (window.confirm('Adakah anda pasti mahu memadamkan Nota ini?')) {
       try {
         const token = await getIdToken(auth.currentUser);
-        await axios.delete(`https://cotc-backend.onrender.com/api/bab1/${id}`, {
+        await axios.delete(`/api/bab1/${id}`, {
           headers: {
             email: auth.currentUser.email,
             Authorization: `Bearer ${token}`,

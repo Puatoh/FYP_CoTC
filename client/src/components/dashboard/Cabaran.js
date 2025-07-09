@@ -33,13 +33,13 @@ const Cabaran = () => {
         const token = await user.getIdToken();
 
         const [resChallenges, resAttempts, resAchievements] = await Promise.all([
-          axios.get('https://cotc-backend.onrender.com/api/challenges', {
+          axios.get('/api/challenges', {
             headers: { Authorization: `Bearer ${token}`, email: user.email }
           }),
-          axios.get('https://cotc-backend.onrender.com/api/challenge-attempts/student', {
+          axios.get('/api/challenge-attempts/student', {
             headers: { Authorization: `Bearer ${token}`, email: user.email }
           }),
-          axios.get('https://cotc-backend.onrender.com/api/challenge-attempts/student/achievements', {
+          axios.get('/api/challenge-attempts/student/achievements', {
             headers: { Authorization: `Bearer ${token}`, email: user.email }
           }),
         ]);

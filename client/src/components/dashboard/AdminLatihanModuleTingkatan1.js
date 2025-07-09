@@ -23,7 +23,7 @@ const AdminLatihanModuleTingkatan1 = () => {
     try {
       setLoading(true);
       const token = await auth.currentUser.getIdToken();
-      const res = await axios.get('https://cotc-backend.onrender.com/api/modules/tingkatan1', {
+      const res = await axios.get('/api/modules/tingkatan1', {
         headers: { Authorization: `Bearer ${token}`, email: auth.currentUser.email }
       });
       setModules(res.data);
@@ -61,13 +61,13 @@ const AdminLatihanModuleTingkatan1 = () => {
       const token = await auth.currentUser.getIdToken();
       if (isEditingId) {
         await axios.put(
-          `https://cotc-backend.onrender.com/api/modules/tingkatan1/${isEditingId}`,
+          `/api/modules/tingkatan1/${isEditingId}`,
           { title: form.title.trim(), description: form.description.trim() },
           { headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}`, email: auth.currentUser.email } }
         );
       } else {
         await axios.post(
-          'https://cotc-backend.onrender.com/api/modules/tingkatan1',
+          '/api/modules/tingkatan1',
           { title: form.title.trim(), description: form.description.trim() },
           { headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}`, email: auth.currentUser.email } }
         );
@@ -92,7 +92,7 @@ const AdminLatihanModuleTingkatan1 = () => {
     try {
       const token = await auth.currentUser.getIdToken();
       await axios.delete(
-        `https://cotc-backend.onrender.com/api/modules/tingkatan1/${modId}`,
+        `/api/modules/tingkatan1/${modId}`,
         { headers: { Authorization: `Bearer ${token}`, email: auth.currentUser.email } }
       );
       fetchModules();
@@ -115,7 +115,7 @@ const AdminLatihanModuleTingkatan1 = () => {
 
     try {
       const token = await auth.currentUser.getIdToken();
-      const res = await axios.get(`https://cotc-backend.onrender.com/api/attempts/tingkatan1/${moduleId}/admin`, {
+      const res = await axios.get(`/api/attempts/tingkatan1/${moduleId}/admin`, {
         headers: {
           Authorization: `Bearer ${token}`,
           email: auth.currentUser.email
@@ -157,7 +157,7 @@ const AdminLatihanModuleTingkatan1 = () => {
       setSavingFeedbackId(attemptId);
       const token = await auth.currentUser.getIdToken();
       await axios.put(
-        `https://cotc-backend.onrender.com/api/attempts/${attemptId}/feedback`,
+        `/api/attempts/${attemptId}/feedback`,
         { feedback },
         {
           headers: {

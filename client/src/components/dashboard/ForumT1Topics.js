@@ -36,7 +36,7 @@ const ForumT1Topics = () => {
     try {
       setLoadingTopics(true);
       const token = await auth.currentUser.getIdToken();
-      const res = await axios.get('https://cotc-backend.onrender.com/api/forum-tingkatan-1', {
+      const res = await axios.get('/api/forum-tingkatan-1', {
         headers: { Authorization: `Bearer ${token}`, email: currentEmail }
       });
       setTopics(res.data);
@@ -59,7 +59,7 @@ const ForumT1Topics = () => {
     try {
       const token = await auth.currentUser.getIdToken();
       const res = await axios.get(
-        `https://cotc-backend.onrender.com/api/forum-tingkatan-1/${topicId}/comments`,
+        `/api/forum-tingkatan-1/${topicId}/comments`,
         { headers: { Authorization: `Bearer ${token}`, email: currentEmail } }
       );
       setCommentsByTopic(prev => ({ ...prev, [topicId]: res.data }));
@@ -78,7 +78,7 @@ const ForumT1Topics = () => {
     try {
       const token = await auth.currentUser.getIdToken();
       await axios.post(
-        `https://cotc-backend.onrender.com/api/forum-tingkatan-1/${topicId}/comments`,
+        `/api/forum-tingkatan-1/${topicId}/comments`,
         { content, parentComment: null },
         { headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}`, email: currentEmail } }
       );
@@ -96,7 +96,7 @@ const ForumT1Topics = () => {
     try {
       const token = await auth.currentUser.getIdToken();
       await axios.put(
-        `https://cotc-backend.onrender.com/api/forum-tingkatan-1/${topicId}/comments/${commentId}`,
+        `/api/forum-tingkatan-1/${topicId}/comments/${commentId}`,
         { content: newText },
         { headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}`, email: currentEmail } }
       );
@@ -109,7 +109,7 @@ const ForumT1Topics = () => {
     try {
       const token = await auth.currentUser.getIdToken();
       await axios.delete(
-        `https://cotc-backend.onrender.com/api/forum-tingkatan-1/${topicId}/comments/${commentId}`,
+        `/api/forum-tingkatan-1/${topicId}/comments/${commentId}`,
         { headers: { Authorization: `Bearer ${token}`, email: currentEmail } }
       );
       fetchComments(topicId);
@@ -123,7 +123,7 @@ const ForumT1Topics = () => {
     try {
       const token = await auth.currentUser.getIdToken();
       const res = await axios.get(
-        `https://cotc-backend.onrender.com/api/forum-tingkatan-1/${topicId}/comments/${commentId}/replies`,
+        `/api/forum-tingkatan-1/${topicId}/comments/${commentId}/replies`,
         { headers: { Authorization: `Bearer ${token}`, email: currentEmail } }
       );
       setRepliesByComment(prev => ({ ...prev, [commentId]: res.data }));
@@ -141,7 +141,7 @@ const ForumT1Topics = () => {
     try {
       const token = await auth.currentUser.getIdToken();
       await axios.post(
-        `https://cotc-backend.onrender.com/api/forum-tingkatan-1/${topicId}/comments/${commentId}/replies`,
+        `/api/forum-tingkatan-1/${topicId}/comments/${commentId}/replies`,
         { content },
         { headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}`, email: currentEmail } }
       );
@@ -160,7 +160,7 @@ const ForumT1Topics = () => {
     try {
       const token = await auth.currentUser.getIdToken();
       await axios.put(
-        `https://cotc-backend.onrender.com/api/forum-tingkatan-1/${topicId}/comments/${commentId}/replies/${replyId}`,
+        `/api/forum-tingkatan-1/${topicId}/comments/${commentId}/replies/${replyId}`,
         { content: newText },
         { headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}`, email: currentEmail } }
       );
@@ -176,7 +176,7 @@ const ForumT1Topics = () => {
     try {
       const token = await auth.currentUser.getIdToken();
       await axios.delete(
-        `https://cotc-backend.onrender.com/api/forum-tingkatan-1/${topicId}/comments/${commentId}/replies/${replyId}`,
+        `/api/forum-tingkatan-1/${topicId}/comments/${commentId}/replies/${replyId}`,
         { headers: { Authorization: `Bearer ${token}`, email: currentEmail } }
       );
       fetchReplies(topicId, commentId);

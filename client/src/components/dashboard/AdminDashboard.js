@@ -98,7 +98,7 @@ const AdminDashboard = () => {
       }
 
       const token = await currentUser.getIdToken();
-      const res = await axios.get('https://cotc-backend.onrender.com/api/auth/profile', {
+      const res = await axios.get('/api/auth/profile', {
         headers: {
           Authorization: `Bearer ${token}`,
           email: currentUser.email,
@@ -227,7 +227,7 @@ const AdminDashboard = () => {
     try {
       const currentUser = auth.currentUser;
       const token = await currentUser.getIdToken();
-      await axios.delete('https://cotc-backend.onrender.com/api/auth/profile/photo', {
+      await axios.delete('/api/auth/profile/photo', {
         headers: {
           Authorization: `Bearer ${token}`,
           email: currentUser.email,
@@ -273,7 +273,7 @@ const AdminDashboard = () => {
         const formData = new FormData();
         formData.append('avatar', avatarFile);
         const photoRes = await axios.post(
-          'https://cotc-backend.onrender.com/api/auth/profile/photo',
+          '/api/auth/profile/photo',
           formData,
           {
             headers: {
@@ -293,7 +293,7 @@ const AdminDashboard = () => {
       // 11b) If username changed, update it
       if (trimmed !== profileData.username) {
         await axios.put(
-          'https://cotc-backend.onrender.com/api/auth/profile',
+          '/api/auth/profile',
           { username: trimmed },
           {
             headers: {
@@ -325,7 +325,7 @@ const AdminDashboard = () => {
         const currentUser = auth.currentUser;
         const token = await currentUser.getIdToken();
 
-        const res = await axios.get('https://cotc-backend.onrender.com/api/admin/students', {
+        const res = await axios.get('/api/admin/students', {
           headers: {
             Authorization: `Bearer ${token}`,
             email: currentUser.email,
@@ -347,7 +347,7 @@ const AdminDashboard = () => {
         const currentUser = auth.currentUser;
         const token = await currentUser.getIdToken();
 
-        const res = await axios.get('https://cotc-backend.onrender.com/api/forum-tingkatan-1/activity', {
+        const res = await axios.get('/api/forum-tingkatan-1/activity', {
           headers: {
             Authorization: `Bearer ${token}`,
             email: currentUser.email,

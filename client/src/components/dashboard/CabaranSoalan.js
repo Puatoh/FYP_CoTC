@@ -39,7 +39,7 @@ const CabaranSoalan = () => {
 
       const token = await user.getIdToken();
       try {
-        const res = await axios.get(`https://cotc-backend.onrender.com/api/challenges/${id}`, {
+        const res = await axios.get(`/api/challenges/${id}`, {
           headers: { Authorization: `Bearer ${token}`, email: user.email },
         });
         setChallenge(res.data);
@@ -176,7 +176,7 @@ const CabaranSoalan = () => {
     try {
       const token = await user.getIdToken();
       await axios.post(
-        `https://cotc-backend.onrender.com/api/challenges/${id}/submit`,
+        `/api/challenges/${id}/submit`,
         { answers, startedAt: startTime },
         { headers: { Authorization: `Bearer ${token}`, email: user.email } }
       );
@@ -210,7 +210,7 @@ const CabaranSoalan = () => {
           onClick={async () => {
             try {
               const token = await auth.currentUser.getIdToken();
-              const res = await axios.get(`https://cotc-backend.onrender.com/api/challenges/${id}/leaderboard`, {
+              const res = await axios.get(`/api/challenges/${id}/leaderboard`, {
                 headers: { Authorization: `Bearer ${token}`, email: auth.currentUser.email },
               });
 

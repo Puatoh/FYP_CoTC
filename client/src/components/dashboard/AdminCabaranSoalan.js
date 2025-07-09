@@ -25,7 +25,7 @@ const AdminCabaranSoalan = () => {
             if (!currentUser) return;
             const token = await currentUser.getIdToken();
             try {
-                const res = await axios.get(`https://cotc-backend.onrender.com/api/challenges/${editingId}`, {
+                const res = await axios.get(`/api/challenges/${editingId}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         email: currentUser.email,
@@ -112,11 +112,11 @@ const AdminCabaranSoalan = () => {
         const payload = { title, description, rules, duration, status, questions };
         try {
             if (editingId) {
-                await axios.put(`https://cotc-backend.onrender.com/api/challenges/${editingId}`, payload, {
+                await axios.put(`/api/challenges/${editingId}`, payload, {
                     headers: { Authorization: `Bearer ${token}`, email: currentUser.email },
                 });
             } else {
-                await axios.post('https://cotc-backend.onrender.com/api/challenges', payload, {
+                await axios.post('/api/challenges', payload, {
                     headers: { Authorization: `Bearer ${token}`, email: currentUser.email },
                 });
             }
