@@ -74,7 +74,7 @@ export default function Register() {
 
       // 3. Send user info to backend
       try {
-        await axios.post('/api/auth/register', {
+        await axios.post('https://cotc-backend.onrender.com/api/auth/register', {
           username: form.username,
           email: form.email,
           firebaseUid: firebaseUser.uid,

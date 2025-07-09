@@ -24,7 +24,13 @@ const attemptAdminRoutes = require('./routes/attemptAdminRoutes');
 
 const challengeRoutes = require('./routes/challengeRoutes');
 
-app.use(cors());
+app.use(cors({
+  origin: [
+    'https://fyp-co-tc.vercel.app', // ✅ your Vercel frontend URL
+    'http://localhost:3000'             // ✅ allow local dev
+  ],
+  credentials: true
+}));
 app.use(bodyParser.json());
 
 // Mount existing routes:
